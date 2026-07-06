@@ -88,6 +88,28 @@ export default function MapCanvas({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState<Point>({ x: 0, y: 0 });
+  const panRef = useRef(pan);
+  const precisePanRef = useRef<Point>({ x: pan.x, y: pan.y });
+  const renderedPanRef = useRef<Point>({ x: pan.x, y: pan.y });
+
+  const commitPan = (nextPrecisePan: Point) => {
+    precisePanRef.current = nextPrecisePan;
+
+    // Pixel snapping reduces anti-aliasing shimmer while moving the large SVG scene.
+    const snappedPan = {
+      x: Math.round(nextPrecisePan.x),
+      y: Math.round(nextPrecisePan.y),
+    };
+
+    if (
+      snappedPan.x !== renderedPanRef.current.x ||
+      snappedPan.y !== renderedPanRef.current.y
+    ) {
+      renderedPanRef.current = snappedPan;
+      panRef.current = snappedPan;
+      setPan(snappedPan);
+    }
+  };
 
   const getLayerZIndex = (layerId: string): number => {
     const index = layerOrder.indexOf(layerId);
@@ -285,125 +307,189 @@ export default function MapCanvas({
     pendingRoutePoints,
   ]);
 
-  // WASD/Arrow movement engine (fluid velocity-driven camera pan)
-  const panRef = useRef(pan);
-  const keyStateRef = useRef<Record<string, boolean>>({});
-  const velocityRef = useRef<Point>({ x: 0, y: 0 });
+  // WASD/Arrow movement engine (rewritten from scratch)
+  const isPanningRef = useRef(isPanning);
+  const zoomRef = useRef(zoom);
+  const cameraLockedRef = useRef(cameraLocked);
+  const keyStateRef = useRef({
+    KeyW: false,
+    KeyA: false,
+    KeyS: false,
+    KeyD: false,
+    ArrowUp: false,
+    ArrowDown: false,
+    ArrowLeft: false,
+    ArrowRight: false,
+  });
+  const movementRef = useRef({
+    vx: 0,
+    vy: 0,
+    lastTs: 0,
+    rafId: 0,
+  });
 
   useEffect(() => {
     panRef.current = pan;
+    precisePanRef.current = pan;
+    renderedPanRef.current = pan;
   }, [pan]);
 
   useEffect(() => {
-    const movementKeys = new Set([
-      "w",
-      "a",
-      "s",
-      "d",
-      "arrowup",
-      "arrowdown",
-      "arrowleft",
-      "arrowright",
+    isPanningRef.current = isPanning;
+  }, [isPanning]);
+
+  useEffect(() => {
+    zoomRef.current = zoom;
+  }, [zoom]);
+
+  useEffect(() => {
+    cameraLockedRef.current = cameraLocked;
+  }, [cameraLocked]);
+
+  useEffect(() => {
+    const movementCodes = new Set([
+      "KeyW",
+      "KeyA",
+      "KeyS",
+      "KeyD",
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
     ]);
 
-    let animationFrameId = 0;
-    let lastTime = performance.now();
+    const isTypingTarget = () => {
+      const active = document.activeElement;
+      const tag = active?.tagName.toLowerCase();
+      return (
+        tag === "input" ||
+        tag === "textarea" ||
+        active?.hasAttribute("contenteditable")
+      );
+    };
 
-    const keyToAxis = () => {
+    const resetMovementState = () => {
+      keyStateRef.current = {
+        KeyW: false,
+        KeyA: false,
+        KeyS: false,
+        KeyD: false,
+        ArrowUp: false,
+        ArrowDown: false,
+        ArrowLeft: false,
+        ArrowRight: false,
+      };
+      movementRef.current.vx = 0;
+      movementRef.current.vy = 0;
+      movementRef.current.lastTs = 0;
+    };
+
+    const getAxis = () => {
       let x = 0;
       let y = 0;
-      if (keyStateRef.current["w"] || keyStateRef.current["arrowup"]) y += 1;
-      if (keyStateRef.current["s"] || keyStateRef.current["arrowdown"]) y -= 1;
-      if (keyStateRef.current["a"] || keyStateRef.current["arrowleft"]) x += 1;
-      if (keyStateRef.current["d"] || keyStateRef.current["arrowright"]) x -= 1;
+      const k = keyStateRef.current;
+
+      if (k.KeyW || k.ArrowUp) y += 1;
+      if (k.KeyS || k.ArrowDown) y -= 1;
+      if (k.KeyA || k.ArrowLeft) x += 1;
+      if (k.KeyD || k.ArrowRight) x -= 1;
 
       if (x !== 0 && y !== 0) {
         const inv = 1 / Math.sqrt(2);
         x *= inv;
         y *= inv;
       }
+
       return { x, y };
     };
 
+    const approach = (current: number, target: number, delta: number) => {
+      if (current < target) return Math.min(current + delta, target);
+      if (current > target) return Math.max(current - delta, target);
+      return target;
+    };
+
     const tick = (now: number) => {
-      const dt = Math.min(0.05, (now - lastTime) / 1000);
-      lastTime = now;
+      const state = movementRef.current;
+      const dt =
+        state.lastTs === 0 ? 0 : Math.min((now - state.lastTs) / 1000, 0.05);
+      state.lastTs = now;
 
-      const axis = keyToAxis();
-      const hasInput = axis.x !== 0 || axis.y !== 0;
-      const targetSpeed = (cameraLocked ? 0 : 980) / Math.max(zoom, 0.2);
-      const targetVX = axis.x * targetSpeed;
-      const targetVY = axis.y * targetSpeed;
+      if (dt > 0) {
+        if (isPanningRef.current || cameraLockedRef.current) {
+          state.vx = 0;
+          state.vy = 0;
+        } else {
+          const axis = getAxis();
+          const hasInput = axis.x !== 0 || axis.y !== 0;
 
-      const response = hasInput ? 16 : 11;
-      const lerpFactor = 1 - Math.exp(-response * dt);
+          const baseSpeed = 1040;
+          const zoomFactor = Math.max(zoomRef.current, 0.2);
+          const targetSpeed = baseSpeed / zoomFactor;
+          const targetVX = axis.x * targetSpeed;
+          const targetVY = axis.y * targetSpeed;
 
-      velocityRef.current.x += (targetVX - velocityRef.current.x) * lerpFactor;
-      velocityRef.current.y += (targetVY - velocityRef.current.y) * lerpFactor;
+          const accel = 3800;
+          const decel = 4600;
 
-      const moveX = velocityRef.current.x * dt;
-      const moveY = velocityRef.current.y * dt;
-      const isNearRest =
-        Math.abs(velocityRef.current.x) < 6 &&
-        Math.abs(velocityRef.current.y) < 6 &&
-        Math.abs(moveX) < 0.08 &&
-        Math.abs(moveY) < 0.08;
+          state.vx = approach(
+            state.vx,
+            targetVX,
+            (hasInput ? accel : decel) * dt,
+          );
+          state.vy = approach(
+            state.vy,
+            targetVY,
+            (hasInput ? accel : decel) * dt,
+          );
 
-      if (!hasInput && isNearRest) {
-        velocityRef.current = { x: 0, y: 0 };
+          if (!hasInput && Math.abs(state.vx) < 1) state.vx = 0;
+          if (!hasInput && Math.abs(state.vy) < 1) state.vy = 0;
+
+          if (state.vx !== 0 || state.vy !== 0) {
+            commitPan({
+              x: precisePanRef.current.x + state.vx * dt,
+              y: precisePanRef.current.y + state.vy * dt,
+            });
+          }
+        }
       }
 
-      if (velocityRef.current.x !== 0 || velocityRef.current.y !== 0) {
-        const nextPan = {
-          x: panRef.current.x + moveX,
-          y: panRef.current.y + moveY,
-        };
-        panRef.current = nextPan;
-        setPan(nextPan);
-      }
-
-      animationFrameId = requestAnimationFrame(tick);
+      state.rafId = requestAnimationFrame(tick);
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      const activeTag = document.activeElement?.tagName.toLowerCase();
-      if (
-        activeTag === "input" ||
-        activeTag === "textarea" ||
-        document.activeElement?.hasAttribute("contenteditable")
-      ) {
-        return;
-      }
+      if (!movementCodes.has(e.code)) return;
+      if (isTypingTarget() || e.altKey || e.metaKey || e.ctrlKey) return;
 
-      const key = e.key.toLowerCase();
-      if (!movementKeys.has(key)) return;
-      keyStateRef.current[key] = true;
+      keyStateRef.current[e.code as keyof typeof keyStateRef.current] = true;
       e.preventDefault();
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-      const key = e.key.toLowerCase();
-      if (!movementKeys.has(key)) return;
-      keyStateRef.current[key] = false;
+      if (!movementCodes.has(e.code)) return;
+
+      keyStateRef.current[e.code as keyof typeof keyStateRef.current] = false;
+      e.preventDefault();
     };
 
     const handleWindowBlur = () => {
-      keyStateRef.current = {};
-      velocityRef.current = { x: 0, y: 0 };
+      resetMovementState();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
     window.addEventListener("blur", handleWindowBlur);
-    animationFrameId = requestAnimationFrame(tick);
+    movementRef.current.rafId = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
       window.removeEventListener("blur", handleWindowBlur);
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(movementRef.current.rafId);
+      resetMovementState();
     };
-  }, [zoom, cameraLocked, setPan]);
+  }, []);
 
   // Use native non-passive wheel listener to allow preventDefault without warnings.
   useEffect(() => {
@@ -478,7 +564,10 @@ export default function MapCanvas({
         (e.target as SVGElement).id === "map-background")
     ) {
       setIsPanning(true);
-      setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+      setPanStart({
+        x: e.clientX - precisePanRef.current.x,
+        y: e.clientY - precisePanRef.current.y,
+      });
       e.preventDefault();
     }
   };
@@ -492,7 +581,7 @@ export default function MapCanvas({
     setCursorPos(previewCoords);
 
     if (isPanning) {
-      setPan({
+      commitPan({
         x: e.clientX - panStart.x,
         y: e.clientY - panStart.y,
       });
@@ -905,7 +994,9 @@ export default function MapCanvas({
                 d="M 100 0 L 0 0 0 100"
                 fill="none"
                 stroke={
-                  isDarkTheme ? "rgba(255,255,255,0.02)" : "rgba(62,47,31,0.03)"
+                  isDarkTheme
+                    ? "rgba(255, 255, 255, 0.2)"
+                    : "rgba(62, 47, 31, 0.2)"
                 }
                 strokeWidth="1"
               />
@@ -1812,7 +1903,7 @@ export default function MapCanvas({
         {activeTool === "draw-route" && drawingRoutePoints.length > 0 && (
           <div
             onMouseDown={(e) => e.stopPropagation()}
-            className="absolute top-4 left-1/2 -translate-x-1/2 z-40 bg-slate-900/90 border border-purple-500/40 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-3 backdrop-blur-md"
+            className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-slate-900/90 border border-purple-500/40 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-3 backdrop-blur-md"
           >
             <span className="text-xs font-medium text-purple-400 flex items-center gap-1.5 animate-pulse">
               <span className="w-2 h-2 rounded-full bg-purple-500" /> Desenhando

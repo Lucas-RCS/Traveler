@@ -68,12 +68,12 @@ export default function InspectorPanel({
   if (!selectedElement.type || !selectedElement.id) {
     return (
       <div
-        className={`w-80 p-6 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-center z-40 max-h-[80vh] overflow-hidden flex flex-col`}
+        className={`w-80 p-6 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-center z-10 max-h-[80vh] overflow-hidden flex flex-col`}
       >
         <div className="flex flex-col items-center justify-center py-16 opacity-50 space-y-4">
           <Layers size={36} className="text-amber-500 animate-pulse" />
           <h4 className="font-display font-semibold uppercase tracking-wider text-xs">
-            Inspector
+            Propriedades
           </h4>
           <p className="text-[11px] max-w-[200px]">
             Selecione um elemento no mapa ou nas camadas para ver suas ações e
@@ -290,12 +290,12 @@ export default function InspectorPanel({
 
   return (
     <div
-      className={`w-80 p-4 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-xs flex flex-col max-h-[80vh] overflow-hidden no-scrollbar z-40`}
+      className={`w-100 p-4 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-xs flex flex-col max-h-[80vh] overflow-hidden no-scrollbar z-10`}
     >
       {/* Header */}
       <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
         <span className="font-display font-semibold uppercase tracking-wider opacity-60 text-[10px]">
-          Inspector
+          Propriedades
         </span>
         <button
           onClick={handleClose}

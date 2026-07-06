@@ -1,5 +1,5 @@
 import React from "react";
-import { Map, Copy, Check, Info } from "lucide-react";
+import { Map } from "lucide-react";
 import { Campaign, Point } from "../types";
 
 interface MiniMapProps {

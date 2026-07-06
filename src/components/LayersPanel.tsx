@@ -280,7 +280,7 @@ export default function LayersPanel({
 
   return (
     <div
-      className={`w-72 p-4 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-xs z-40 max-h-[80vh] overflow-hidden flex flex-col`}
+      className={`w-80 p-4 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-xs z-10 max-h-[80vh] overflow-hidden flex flex-col`}
     >
       {/* Title Header */}
       <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-white/10">

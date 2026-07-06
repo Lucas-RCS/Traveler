@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Compass, Search } from "lucide-react";
 
-import { Campaign, Point } from "./types";
+import { Campaign, Point, Region, Route, POI, MapComment } from "./types";
 import { DEFAULT_CAMPAIGN } from "./defaultCampaign";
 
 // Import all sub-components
@@ -15,9 +15,26 @@ import TravelPlanner from "./components/TravelPlanner";
 import CampaignSelector from "./components/CampaignSelector";
 import CommandPalette from "./components/CommandPalette";
 
+import logo from "./imgs/logo.svg";
+
 const THEME_STORAGE_KEY = "traveler-theme";
 const CAMPAIGNS_STORAGE_KEY = "traveler-campaigns";
 const ACTIVE_CAMPAIGN_STORAGE_KEY = "traveler-active-campaign-id";
+const STORAGE_WRITE_DELAY_MS = 180;
+
+type CopiedElement =
+  | { type: "region"; data: Region }
+  | { type: "route"; data: Route }
+  | { type: "poi"; data: POI }
+  | { type: "comment"; data: MapComment };
+
+const cloneCampaign = (campaign: Campaign): Campaign => {
+  if (typeof structuredClone === "function") {
+    return structuredClone(campaign);
+  }
+
+  return JSON.parse(JSON.stringify(campaign)) as Campaign;
+};
 
 const normalizeCampaign = (campaign: Campaign): Campaign => {
   const normalizedTravelPlan = {
@@ -122,7 +139,7 @@ export default function App() {
     pins: true,
     comentarios: true,
     travessias: true,
-    grade: false,
+    grade: true,
   });
   const [layerLocks, setLayerLocks] = useState<Record<string, boolean>>({
     regioes: false,
@@ -177,16 +194,24 @@ export default function App() {
   const [cursorPos, setCursorPos] = useState<Point | null>(null);
 
   // Keyboard Shortcuts & WASD Map Navigation State
-  const [copiedElement, setCopiedElement] = useState<{
-    type: "region" | "route" | "poi" | "comment";
-    data: any;
-  } | null>(null);
+  const [copiedElement, setCopiedElement] = useState<CopiedElement | null>(
+    null,
+  );
   const [undoStack, setUndoStack] = useState<Campaign[]>([]);
   const historyCooldownRef = useRef(false);
+  const historyCooldownTimeoutRef = useRef<number | null>(null);
+  const campaignsPersistTimeoutRef = useRef<number | null>(null);
 
-  const cloneCampaign = (campaign: Campaign): Campaign => {
-    return JSON.parse(JSON.stringify(campaign));
-  };
+  useEffect(() => {
+    return () => {
+      if (historyCooldownTimeoutRef.current !== null) {
+        window.clearTimeout(historyCooldownTimeoutRef.current);
+      }
+      if (campaignsPersistTimeoutRef.current !== null) {
+        window.clearTimeout(campaignsPersistTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
@@ -202,6 +227,15 @@ export default function App() {
 
       const key = e.key.toLowerCase();
       const isCtrl = e.ctrlKey || e.metaKey;
+      const isMovementKey =
+        key === "w" ||
+        key === "a" ||
+        key === "s" ||
+        key === "d" ||
+        key === "arrowup" ||
+        key === "arrowdown" ||
+        key === "arrowleft" ||
+        key === "arrowright";
 
       // Copy and Paste actions
       if (isCtrl) {
@@ -220,18 +254,21 @@ export default function App() {
         if (key === "c") {
           if (activeCampaign && selectedElement.id && selectedElement.type) {
             const { type, id } = selectedElement;
-            let elementData = null;
-            if (type === "region")
-              elementData = activeCampaign.regions.find((r) => r.id === id);
-            else if (type === "route")
-              elementData = activeCampaign.routes.find((r) => r.id === id);
-            else if (type === "poi")
-              elementData = activeCampaign.pois.find((p) => p.id === id);
-            else if (type === "comment")
-              elementData = activeCampaign.comments.find((c) => c.id === id);
 
-            if (elementData) {
-              setCopiedElement({ type, data: elementData });
+            if (type === "region") {
+              const region = activeCampaign.regions.find((r) => r.id === id);
+              if (region) setCopiedElement({ type: "region", data: region });
+            } else if (type === "route") {
+              const route = activeCampaign.routes.find((r) => r.id === id);
+              if (route) setCopiedElement({ type: "route", data: route });
+            } else if (type === "poi") {
+              const poi = activeCampaign.pois.find((p) => p.id === id);
+              if (poi) setCopiedElement({ type: "poi", data: poi });
+            } else if (type === "comment") {
+              const comment = activeCampaign.comments.find((c) => c.id === id);
+              if (comment) {
+                setCopiedElement({ type: "comment", data: comment });
+              }
             }
           }
           e.preventDefault();
@@ -241,20 +278,26 @@ export default function App() {
           if (activeCampaign && copiedElement) {
             const { type, data } = copiedElement;
             const newId = `${type}-${Date.now()}`;
+
+            const defaultPastePoint =
+              type === "region" || type === "route"
+                ? data.points[0] || { x: 200, y: 200 }
+                : { x: data.x, y: data.y };
+
             // Use current map cursor, or default offset from original
-            const pasteX = cursorPos ? cursorPos.x : (data.x || 200) + 45;
-            const pasteY = cursorPos ? cursorPos.y : (data.y || 200) + 45;
+            const pasteX = cursorPos ? cursorPos.x : defaultPastePoint.x + 45;
+            const pasteY = cursorPos ? cursorPos.y : defaultPastePoint.y + 45;
 
             const updatedCampaign = { ...activeCampaign };
 
             if (type === "region") {
               const pts = data.points;
               if (pts && pts.length > 0) {
-                const minX = Math.min(...pts.map((p: any) => p.x));
-                const minY = Math.min(...pts.map((p: any) => p.y));
+                const minX = Math.min(...pts.map((p) => p.x));
+                const minY = Math.min(...pts.map((p) => p.y));
                 const dx = pasteX - minX;
                 const dy = pasteY - minY;
-                const newPoints = pts.map((p: any) => ({
+                const newPoints = pts.map((p) => ({
                   x: p.x + dx,
                   y: p.y + dy,
                 }));
@@ -275,7 +318,7 @@ export default function App() {
               if (pts && pts.length > 0) {
                 const dx = pasteX - pts[0].x;
                 const dy = pasteY - pts[0].y;
-                const newPoints = pts.map((p: any) => ({
+                const newPoints = pts.map((p) => ({
                   x: p.x + dx,
                   y: p.y + dy,
                 }));
@@ -353,8 +396,13 @@ export default function App() {
         return;
       }
 
+      // WASD/Arrow keys are reserved for camera movement in MapCanvas.
+      if (isMovementKey) {
+        return;
+      }
+
       // Tool Shortcuts
-      if (key === "s" || key === "v") {
+      if (key === "v") {
         setActiveTool("select");
       } else if (key === "h" || key === "p") {
         setActiveTool("pan");
@@ -415,16 +463,29 @@ export default function App() {
 
   useEffect(() => {
     if (loading) return;
-    window.localStorage.setItem(
-      CAMPAIGNS_STORAGE_KEY,
-      JSON.stringify(campaigns),
-    );
-    if (activeCampaignId) {
-      window.localStorage.setItem(
-        ACTIVE_CAMPAIGN_STORAGE_KEY,
-        activeCampaignId,
-      );
+
+    if (campaignsPersistTimeoutRef.current !== null) {
+      window.clearTimeout(campaignsPersistTimeoutRef.current);
     }
+
+    campaignsPersistTimeoutRef.current = window.setTimeout(() => {
+      window.localStorage.setItem(
+        CAMPAIGNS_STORAGE_KEY,
+        JSON.stringify(campaigns),
+      );
+      if (activeCampaignId) {
+        window.localStorage.setItem(
+          ACTIVE_CAMPAIGN_STORAGE_KEY,
+          activeCampaignId,
+        );
+      }
+    }, STORAGE_WRITE_DELAY_MS);
+
+    return () => {
+      if (campaignsPersistTimeoutRef.current !== null) {
+        window.clearTimeout(campaignsPersistTimeoutRef.current);
+      }
+    };
   }, [campaigns, activeCampaignId, loading]);
 
   useEffect(() => {
@@ -441,21 +502,28 @@ export default function App() {
   ) => {
     const normalizedCampaign = normalizeCampaign(updatedCampaign);
     const recordHistory = options?.recordHistory !== false;
-    const existing = campaigns.find((c) => c.id === normalizedCampaign.id);
 
-    if (recordHistory && existing && !historyCooldownRef.current) {
-      setUndoStack((prev) => [cloneCampaign(existing), ...prev].slice(0, 50));
-      historyCooldownRef.current = true;
-      window.setTimeout(() => {
-        historyCooldownRef.current = false;
-      }, 400);
-    }
+    setCampaigns((prevCampaigns) => {
+      const existing = prevCampaigns.find(
+        (c) => c.id === normalizedCampaign.id,
+      );
 
-    // Update local state. Persistence to localStorage is handled in useEffect.
-    const updatedList = campaigns.map((c) =>
-      c.id === normalizedCampaign.id ? normalizedCampaign : c,
-    );
-    setCampaigns(updatedList);
+      if (recordHistory && existing && !historyCooldownRef.current) {
+        setUndoStack((prev) => [cloneCampaign(existing), ...prev].slice(0, 50));
+        historyCooldownRef.current = true;
+        if (historyCooldownTimeoutRef.current !== null) {
+          window.clearTimeout(historyCooldownTimeoutRef.current);
+        }
+        historyCooldownTimeoutRef.current = window.setTimeout(() => {
+          historyCooldownRef.current = false;
+          historyCooldownTimeoutRef.current = null;
+        }, 400);
+      }
+
+      return prevCampaigns.map((campaign) =>
+        campaign.id === normalizedCampaign.id ? normalizedCampaign : campaign,
+      );
+    });
   };
 
   const handleCreateCampaign = (newCampaign: Campaign) => {
@@ -533,41 +601,24 @@ export default function App() {
         )}
       </div>
 
-      {/* FLOAT FLOATING UI OVERLAY CONTAINER (Z-Index 30+) */}
+      {/* FLOAT FLOATING UI OVERLAY CONTAINER  */}
       {!loading && activeCampaign && (
-        <div className="absolute inset-0 pointer-events-none z-40 w-full h-full flex flex-col justify-between p-4">
+        <div className="absolute inset-0 pointer-events-none z-10 w-full h-full flex flex-col justify-between p-4">
           {/* TOP HUD ROW (Campaign name, selectors, Search launcher) */}
           <header className="flex justify-between items-start w-full pointer-events-auto">
             {/* Left side: Campaign Label Title & Description */}
-            <div
-              className={`p-4 rounded-2xl border shadow-xl flex items-center gap-4 max-w-sm md:max-w-md backdrop-blur-md bg-opacity-80 floating-panel${!isDarkTheme ? "-light" : ""}`}
-            >
-              <div className="p-2.5 rounded-xl bg-amber-500 text-slate-950">
-                <Compass
-                  size={18}
-                  className="animate-spin"
-                  style={{ animationDuration: "8s" }}
-                />
-              </div>
-              <div className="flex flex-col">
-                <h1 className="font-display font-bold text-sm tracking-tight">
-                  {activeCampaign.name}
-                </h1>
-                <p className="text-[10px] opacity-60 line-clamp-1 leading-relaxed mt-0.5">
-                  {activeCampaign.description}
-                </p>
-              </div>
+            <div className=" p-2 rounded-xl bg-amber-500 text-slate-950">
+              <img src={logo} alt="Logo" className="w-8" />
             </div>
-
             {/* Right side: Search shortcut trigger & Campaign selection card */}
             <div className="flex items-center gap-3">
               {/* Command Palette Launcher button */}
               <button
                 onClick={() => setCommandPaletteOpen(true)}
-                className={`p-2.5 rounded-xl border flex items-center gap-2 font-semibold transition-all hover:bg-white/5 text-xs ${
+                className={`p-2.5 rounded-xl border cursor-pointer flex items-center gap-2 font-semibold transition-all text-xs ${
                   isDarkTheme
-                    ? "bg-slate-900/90 border-slate-800 text-slate-300 shadow-lg"
-                    : "bg-parchment-100 border-parchment-300 text-parchment-900 shadow-sm"
+                    ? "bg-[#12141dd9] border-slate-800 text-slate-300 shadow-lg hover:bg-slate-800"
+                    : "bg-[#faf6eef5] border-parchment-300 text-parchment-900 shadow-sm hover:bg-parchment-200"
                 }`}
               >
                 <Search size={14} className="opacity-70" />
@@ -581,7 +632,6 @@ export default function App() {
                 campaigns={campaigns}
                 activeCampaignId={activeCampaignId}
                 onSelectCampaign={handleSelectCampaign}
-                onSaveCampaign={handleUpdateActiveCampaign}
                 onCreateCampaign={handleCreateCampaign}
                 onDeleteCampaign={handleDeleteCampaign}
                 isDarkTheme={isDarkTheme}
@@ -602,7 +652,7 @@ export default function App() {
               />
             </div>
 
-            {/* Right panels group (Layers Panel & Active Inspector) */}
+            {/* Right panels group (Layers Panel & Active Propriedades) */}
             <div className="pointer-events-auto shrink-0 self-stretch flex flex-col items-end gap-3 max-h-full overflow-visible">
               {/* Top: visual layers switch panel */}
               <LayersPanel

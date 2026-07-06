@@ -17,7 +17,6 @@ interface CampaignSelectorProps {
   campaigns: Campaign[];
   activeCampaignId: string;
   onSelectCampaign: (id: string) => void;
-  onSaveCampaign: (campaign: Campaign) => void;
   onCreateCampaign: (campaign: Campaign) => void;
   onDeleteCampaign?: (id: string) => void;
   isDarkTheme: boolean;
@@ -27,7 +26,6 @@ export default function CampaignSelector({
   campaigns,
   activeCampaignId,
   onSelectCampaign,
-  onSaveCampaign,
   onCreateCampaign,
   onDeleteCampaign,
   isDarkTheme,
@@ -433,14 +431,14 @@ export default function CampaignSelector({
   };
 
   return (
-    <div className="z-30">
+    <div className="z-100">
       {/* Selector Trigger Button */}
       <button
         onClick={openManager}
-        className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border font-display font-semibold transition-all hover:bg-white/5 active:scale-95 text-xs ${
+        className={`p-2.5 rounded-xl px-3.5 py-2.5 border cursor-pointer flex items-center gap-2 font-semibold transition-all text-xs ${
           isDarkTheme
-            ? "bg-slate-900/90 border-slate-800 text-slate-300 shadow-lg"
-            : "bg-parchment-100 border-parchment-300 text-parchment-900 shadow-sm"
+            ? "bg-[#12141dd9] border-slate-800 text-slate-300 shadow-lg hover:bg-slate-800"
+            : "bg-[#faf6eef5] border-parchment-300 text-parchment-900 shadow-sm hover:bg-parchment-200"
         }`}
       >
         <FolderOpen size={15} />
@@ -451,7 +449,7 @@ export default function CampaignSelector({
       <AnimatePresence>
         {isOpen && (
           <div
-            className={`fixed inset-0 z-[99999] flex items-center justify-center p-4 ${isDarkTheme ? "bg-slate-950/95" : "bg-parchment-100/95"} backdrop-blur-lg`}
+            className={`fixed inset-0 z-[99999] flex items-center justify-center p-4 ${isDarkTheme ? "bg-[#0206183b]" : "bg-[#FBF9F43b]"} backdrop-blur-xs`}
           >
             <div
               className="absolute inset-0"
@@ -464,11 +462,11 @@ export default function CampaignSelector({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className={`w-full max-w-3xl rounded-2xl border shadow-2xl overflow-hidden z-20 flex flex-col md:flex-row h-[520px] floating-panel${!isDarkTheme ? "-light" : ""}`}
+              className={`w-full max-w-4xl rounded-2xl border shadow-2xl overflow-hidden z-20 flex flex-col md:flex-row h-[560px] floating-panel${!isDarkTheme ? "-light" : ""}`}
             >
               {/* Left sidebar: Campaigns library */}
               <div
-                className={`w-full md:w-[260px] border-r p-4 flex flex-col justify-between ${
+                className={`w-full md:w-[300px] border-r p-4 flex flex-col justify-between ${
                   isDarkTheme
                     ? "bg-slate-950/40 border-slate-800/60"
                     : "bg-parchment-100/50 border-parchment-200"
@@ -478,7 +476,7 @@ export default function CampaignSelector({
                   <h3 className="font-display font-semibold uppercase tracking-wider text-[10px] opacity-50 mb-3">
                     Biblioteca de Campanhas
                   </h3>
-                  <div className="space-y-2 max-h-[360px] overflow-y-auto pr-1 no-scrollbar">
+                  <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1 no-scrollbar">
                     {campaigns.map((camp) => {
                       const isCurrentlyActive = camp.id === activeCampaignId;
                       const isHighlighted =
@@ -576,7 +574,7 @@ export default function CampaignSelector({
                     <Plus size={13} /> Criar Novo Mapa
                   </button>
                   <div className="text-[9px] opacity-40 font-mono text-center">
-                    RPG Travel Maps v1.2
+                    Traveler v1.2
                   </div>
                 </div>
               </div>
@@ -603,7 +601,7 @@ export default function CampaignSelector({
 
                       {/* Map Image Preview */}
                       <div
-                        className={`relative h-32 w-full rounded-xl overflow-hidden border ${
+                        className={`relative h-64 w-full rounded-xl overflow-hidden border ${
                           isDarkTheme
                             ? "border-slate-800 bg-slate-900"
                             : "border-parchment-200 bg-parchment-50"

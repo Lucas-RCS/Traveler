@@ -22,6 +22,8 @@ export type RegionType =
   | "Mar"
   | "Pântano"
   | "Planície"
+  | "Planície Gélida"
+  | "Ilha"
   | "Outro";
 
 export interface Region {
@@ -73,6 +75,7 @@ export type POIType =
   | "Porto"
   | "Castelo"
   | "Acampamento"
+  | "Posto"
   | "Marco"
   | "Pin";
 
@@ -148,7 +151,7 @@ export interface Campaign {
   id: string;
   name: string;
   description: string;
-  mapUrl: string; // Background map (Default or custom uploaded)
+  mapUrl: string;
   mapType: "raster" | "svg";
   mapWidth: number;
   mapHeight: number;
