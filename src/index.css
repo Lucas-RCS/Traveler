@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-parchment-100: #FBF9F4;
+  --color-parchment-200: #F3ECE0;
+  --color-parchment-300: #E6D9C5;
+  --color-parchment-900: #3E2F1F;
+}
+
+/* Custom Styles for Travel Maps */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #0d0e12;
+  font-family: var(--font-sans);
+  color: #f3f4f6;
+}
+
+/* Hide scrollbars for the map viewports */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glassmorphism overlays inspired by Figma/Linear */
+.floating-panel {
+  background: rgba(18, 20, 29, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 1px 1px 0 rgba(255, 255, 255, 0.05) inset;
+  color: #e5e7eb;
+}
+
+.floating-panel-light {
+  background: rgba(250, 246, 238, 0.96);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(62, 47, 31, 0.22);
+  box-shadow: 0 14px 36px -14px rgba(38, 28, 18, 0.34);
+  color: #2f2418;
+}
+
+.floating-panel input,
+.floating-panel textarea,
+.floating-panel select {
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.floating-panel input::placeholder,
+.floating-panel textarea::placeholder {
+  color: rgba(203, 213, 225, 0.75);
+}
+
+.floating-panel-light input,
+.floating-panel-light textarea,
+.floating-panel-light select {
+  color: #2f2418;
+  background: rgba(255, 251, 244, 0.92);
+  border: 1px solid rgba(62, 47, 31, 0.24);
+}
+
+.floating-panel-light input::placeholder,
+.floating-panel-light textarea::placeholder {
+  color: rgba(62, 47, 31, 0.65);
+}
+
+.themed-select {
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.themed-select option {
+  color: #e2e8f0;
+  background: #0f172a;
+}
+
+.floating-panel-light .themed-select {
+  color: #2f2418;
+  background: rgba(255, 250, 242, 0.98);
+  border: 1px solid rgba(62, 47, 31, 0.3);
+}
+
+.floating-panel-light .themed-select option {
+  color: #2f2418;
+  background: #fff8ee;
+}
+
+.floating-panel-light select option,
+.floating-panel-light .themed-select option {
+  color: #2a1f13;
+  background-color: #fff7ea;
+}
+
+.floating-panel-light select option:checked,
+.floating-panel-light .themed-select option:checked {
+  color: #1f140b;
+  background-color: #f2d6a7;
+}
+
+.floating-panel-light select option:hover,
+.floating-panel-light .themed-select option:hover {
+  color: #1f140b;
+  background-color: #f6e3c3;
+}
+
+.floating-panel-light .themed-select:focus,
+.floating-panel-light input:focus,
+.floating-panel-light textarea:focus {
+  outline: none;
+  border-color: #d97706b3;
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.15);
+}
+
+/* Beautiful custom range inputs */
+input[type="range"] {
+  accent-color: #3b82f6;
+}
+
+/* Glowing animations for selected elements */
+@keyframes regionGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(46, 125, 50, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(46, 125, 50, 0.8));
+  }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.animate-dash-line {
+  stroke-dasharray: 8, 6;
+  animation: dash 1s linear infinite;
+}
+
+.region-selected {
+  animation: regionGlow 2s infinite ease-in-out;
+}
+
+/* Custom styled scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(18, 20, 29, 0.4);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
