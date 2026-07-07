@@ -9,21 +9,11 @@ interface TravelPlannerProps {
   isDarkTheme: boolean;
 }
 
-const MORAL_MIN = -5;
-const MORAL_MAX = 5;
 const MAX_ATTR = 5;
 const MAX_BONUS = 3;
-const EXTRA_SUPPLIES_ON_CATASTROPHE = 3;
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
-
-const getMoralPenaltyForBonuses = (moral: number) => {
-  if (moral <= -3) return -3;
-  if (moral === -2) return -2;
-  if (moral === -1) return -1;
-  return 0;
-};
 
 export default function TravelPlanner({
   campaign,
@@ -74,21 +64,6 @@ export default function TravelPlanner({
       }
     };
   }, []);
-
-  const appendLog = (text: string, type: TravelLog["type"] = "info") => {
-    const newLog: TravelLog = {
-      id: `log-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-      text,
-      type,
-      timestamp: new Date().toLocaleTimeString("pt-BR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
-    updatePlan({
-      historyLog: [newLog, ...plan.historyLog],
-    });
-  };
 
   // TRIP MATHEMATICS (Dynamic routing compilation)
   const getSelectedRoutes = (): Route[] => {

@@ -193,7 +193,7 @@ export default function App() {
   // Map Cursor tracking (for MiniMap coordinates HUD)
   const [cursorPos, setCursorPos] = useState<Point | null>(null);
 
-  // Keyboard Shortcuts & WASD Map Navigation State
+  // Keyboard Shortcuts state
   const [copiedElement, setCopiedElement] = useState<CopiedElement | null>(
     null,
   );
@@ -227,16 +227,6 @@ export default function App() {
 
       const key = e.key.toLowerCase();
       const isCtrl = e.ctrlKey || e.metaKey;
-      const isMovementKey =
-        key === "w" ||
-        key === "a" ||
-        key === "s" ||
-        key === "d" ||
-        key === "arrowup" ||
-        key === "arrowdown" ||
-        key === "arrowleft" ||
-        key === "arrowright";
-
       // Copy and Paste actions
       if (isCtrl) {
         if (key === "z") {
@@ -393,11 +383,6 @@ export default function App() {
           handleUpdateActiveCampaign(updatedCampaign);
           setSelectedElement({ type: null, id: null });
         }
-        return;
-      }
-
-      // WASD/Arrow keys are reserved for camera movement in MapCanvas.
-      if (isMovementKey) {
         return;
       }
 
