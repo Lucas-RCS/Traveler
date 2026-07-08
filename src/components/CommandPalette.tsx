@@ -11,6 +11,7 @@ import {
   CornerDownLeft,
 } from "lucide-react";
 import { Campaign, Point } from "../types";
+import { mapPointToPan } from "../utils/coordinates";
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -103,10 +104,7 @@ export default function CommandPalette({
           const centerX = (minX + maxX) / 2;
           const centerY = (minY + maxY) / 2;
 
-          setPan({
-            x: -(centerX - campaign.mapWidth / 2),
-            y: -(centerY - campaign.mapHeight / 2),
-          });
+          setPan(mapPointToPan({ x: centerX, y: centerY }, campaign));
           setZoom(1.2);
           setSelectedElement({ type: "region", id: r.id });
         },
@@ -120,10 +118,7 @@ export default function CommandPalette({
         category: `Ponto de Interesse • ${p.type}`,
         type: "poi",
         action: () => {
-          setPan({
-            x: -(p.x - campaign.mapWidth / 2),
-            y: -(p.y - campaign.mapHeight / 2),
-          });
+          setPan(mapPointToPan({ x: p.x, y: p.y }, campaign));
           setZoom(1.5);
           setSelectedElement({ type: "poi", id: p.id });
         },
@@ -138,10 +133,7 @@ export default function CommandPalette({
         type: "route",
         action: () => {
           const pStart = route.points[0];
-          setPan({
-            x: -(pStart.x - campaign.mapWidth / 2),
-            y: -(pStart.y - campaign.mapHeight / 2),
-          });
+          setPan(mapPointToPan({ x: pStart.x, y: pStart.y }, campaign));
           setZoom(1.2);
           setSelectedElement({ type: "route", id: route.id });
         },

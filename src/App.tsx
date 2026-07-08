@@ -590,13 +590,13 @@ export default function App() {
       {!loading && activeCampaign && (
         <div className="absolute inset-0 pointer-events-none z-10 w-full h-full flex flex-col justify-between p-4">
           {/* TOP HUD ROW (Campaign name, selectors, Search launcher) */}
-          <header className="flex justify-between items-start w-full pointer-events-auto">
+          <header className="flex justify-between items-start w-full pointer-events-none">
             {/* Left side: Campaign Label Title & Description */}
             <div className=" p-2 rounded-xl bg-amber-500 text-slate-950">
               <img src={logo} alt="Logo" className="w-8" />
             </div>
             {/* Right side: Search shortcut trigger & Campaign selection card */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 pointer-events-auto">
               {/* Command Palette Launcher button */}
               <button
                 onClick={() => setCommandPaletteOpen(true)}
@@ -672,23 +672,25 @@ export default function App() {
           </div>
 
           {/* BOTTOM BAR HUD: Zoom cameras, distance scales, interactive Planner */}
-          <footer className="flex justify-between items-end w-full pointer-events-auto mt-auto">
+          <footer className="flex justify-between items-end w-full pointer-events-none mt-auto">
             {/* Left corner: MiniMap coordinates & geographical scale bar */}
-            <MiniMap
-              campaign={activeCampaign}
-              cursorPos={cursorPos}
-              zoom={zoom}
-              isDarkTheme={isDarkTheme}
-              onUpdateScale={(scale) =>
-                handleUpdateActiveCampaign({
-                  ...activeCampaign,
-                  worldScale: scale,
-                })
-              }
-            />
+            <div className="pointer-events-auto">
+              <MiniMap
+                campaign={activeCampaign}
+                cursorPos={cursorPos}
+                zoom={zoom}
+                isDarkTheme={isDarkTheme}
+                onUpdateScale={(scale) =>
+                  handleUpdateActiveCampaign({
+                    ...activeCampaign,
+                    worldScale: scale,
+                  })
+                }
+              />
+            </div>
 
             {/* Center area: Zoom Controls camera locks */}
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-4 hidden md:block">
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-4 hidden md:block pointer-events-auto">
               <ZoomControl
                 zoom={zoom}
                 setZoom={setZoom}
@@ -700,11 +702,13 @@ export default function App() {
             </div>
 
             {/* Right corner: Interactive Travel Mechanics planner board */}
-            <TravelPlanner
-              campaign={activeCampaign}
-              updateCampaign={handleUpdateActiveCampaign}
-              isDarkTheme={isDarkTheme}
-            />
+            <div className="pointer-events-auto">
+              <TravelPlanner
+                campaign={activeCampaign}
+                updateCampaign={handleUpdateActiveCampaign}
+                isDarkTheme={isDarkTheme}
+              />
+            </div>
           </footer>
         </div>
       )}

@@ -23,6 +23,7 @@ import {
   RegionTextItem,
   RegionReferenceItem,
 } from "../types";
+import { formatSignedCoordinate, mapPointToGeo } from "../utils/coordinates";
 
 interface InspectorPanelProps {
   campaign: Campaign;
@@ -287,6 +288,7 @@ export default function InspectorPanel({
   const regionMarkers = region?.regionMarkers || [];
   const regionNotes = region?.regionNotes || [];
   const regionReferences = region?.regionReferences || [];
+  const poiGeo = poi ? mapPointToGeo({ x: poi.x, y: poi.y }, campaign) : null;
 
   return (
     <div
@@ -1168,15 +1170,15 @@ export default function InspectorPanel({
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-[9px] opacity-60 uppercase">X</div>
+                <div className="text-[9px] opacity-60 uppercase">LON</div>
                 <div className="font-mono text-blue-400 text-xs font-bold">
-                  {poi.x}
+                  {poiGeo ? formatSignedCoordinate(poiGeo.longitude) : "0"}
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-[9px] opacity-60 uppercase">Y</div>
+                <div className="text-[9px] opacity-60 uppercase">LAT</div>
                 <div className="font-mono text-blue-400 text-xs font-bold">
-                  {poi.y}
+                  {poiGeo ? formatSignedCoordinate(poiGeo.latitude) : "0"}
                 </div>
               </div>
             </div>
@@ -1227,16 +1229,24 @@ export default function InspectorPanel({
               <div className="grid grid-cols-2 gap-2 text-center text-mono">
                 <div className="p-1.5 bg-white/5 border border-white/5 rounded-lg">
                   <span className="block text-[9px] uppercase opacity-50">
-                    Coordenada X
+                    Longitude (X)
                   </span>
-                  <span className="font-semibold text-amber-400">{poi.x}</span>
+                  <span className="font-semibold text-amber-400">
+                    {poiGeo ? formatSignedCoordinate(poiGeo.longitude) : "0"}
+                  </span>
                 </div>
                 <div className="p-1.5 bg-white/5 border border-white/5 rounded-lg">
                   <span className="block text-[9px] uppercase opacity-50">
-                    Coordenada Y
+                    Latitude (Y)
                   </span>
-                  <span className="font-semibold text-amber-400">{poi.y}</span>
+                  <span className="font-semibold text-amber-400">
+                    {poiGeo ? formatSignedCoordinate(poiGeo.latitude) : "0"}
+                  </span>
                 </div>
+              </div>
+
+              <div className="text-[10px] opacity-60 font-mono text-center">
+                Pixel: X {poi.x} | Y {poi.y}
               </div>
 
               {/* Description */}

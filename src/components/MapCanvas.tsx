@@ -23,6 +23,7 @@ import {
   POIType,
   RouteCategory,
 } from "../types";
+import { getMapCenterPoint } from "../utils/coordinates";
 
 interface MapCanvasProps {
   campaign: Campaign;
@@ -202,12 +203,13 @@ export default function MapCanvas({
     }
     // Stable conversion regardless of hovered SVG/HTML children.
     const rect = containerRef.current.getBoundingClientRect();
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+    const viewportCenterX = rect.width / 2;
+    const viewportCenterY = rect.height / 2;
+    const mapCenter = getMapCenterPoint(campaign);
     const x =
-      (clientX - rect.left - centerX - pan.x) / zoom + campaign.mapWidth / 2;
+      (clientX - rect.left - viewportCenterX - pan.x) / zoom + mapCenter.x;
     const y =
-      (clientY - rect.top - centerY - pan.y) / zoom + campaign.mapHeight / 2;
+      (clientY - rect.top - viewportCenterY - pan.y) / zoom + mapCenter.y;
     return {
       x: Math.round(Math.max(0, Math.min(campaign.mapWidth, x))),
       y: Math.round(Math.max(0, Math.min(campaign.mapHeight, y))),
@@ -217,9 +219,10 @@ export default function MapCanvas({
   const mapToScreenPoint = (mapPoint: Point): Point => {
     if (!containerRef.current) return { x: 0, y: 0 };
     const rect = containerRef.current.getBoundingClientRect();
+    const mapCenter = getMapCenterPoint(campaign);
     return {
-      x: rect.width / 2 + pan.x + (mapPoint.x - campaign.mapWidth / 2) * zoom,
-      y: rect.height / 2 + pan.y + (mapPoint.y - campaign.mapHeight / 2) * zoom,
+      x: rect.width / 2 + pan.x + (mapPoint.x - mapCenter.x) * zoom,
+      y: rect.height / 2 + pan.y + (mapPoint.y - mapCenter.y) * zoom,
     };
   };
 

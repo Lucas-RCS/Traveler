@@ -5,7 +5,6 @@ import {
   Lock,
   Unlock,
   Layers,
-  Plus,
   X,
   ChevronUp,
   ChevronDown,
@@ -28,8 +27,6 @@ interface LayersPanelProps {
     comments: number;
   };
   customLayers?: { id: string; name: string; color: string }[];
-  onAddCustomLayer?: (id: string, name: string, color: string) => void;
-  onDeleteCustomLayer?: (id: string) => void;
   onRenameCustomLayer?: (id: string, newName: string) => void;
   layerOrder: string[];
   setLayerOrder: (order: string[]) => void;
@@ -43,16 +40,10 @@ export default function LayersPanel({
   isDarkTheme,
   counts,
   customLayers = [],
-  onAddCustomLayer,
-  onDeleteCustomLayer,
   onRenameCustomLayer,
   layerOrder,
   setLayerOrder,
 }: LayersPanelProps) {
-  const [isAdding, setIsAdding] = useState(false);
-  const [newLayerName, setNewLayerName] = useState("");
-  const [newLayerColor, setNewLayerColor] = useState("bg-indigo-500");
-
   // Custom layer renaming states
   const [editingLayerId, setEditingLayerId] = useState<string | null>(null);
   const [editingLayerName, setEditingLayerName] = useState("");
@@ -178,17 +169,6 @@ export default function LayersPanel({
     setLayerOrder(newOrder);
   };
 
-  const handleAddSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newLayerName.trim()) return;
-    const newId = "custom-" + Date.now();
-    if (onAddCustomLayer) {
-      onAddCustomLayer(newId, newLayerName.trim(), newLayerColor);
-    }
-    setNewLayerName("");
-    setIsAdding(false);
-  };
-
   const handleRenameSave = (id: string) => {
     if (editingLayerName.trim() && onRenameCustomLayer) {
       onRenameCustomLayer(id, editingLayerName.trim());
@@ -293,21 +273,16 @@ export default function LayersPanel({
             Gestor de Camadas
           </span>
         </div>
-        <button
-          onClick={() => setIsAdding(!isAdding)}
-          className={`p-1.5 rounded-lg hover:bg-white/5 opacity-70 hover:opacity-100 transition-all cursor-pointer ${isAdding ? "text-amber-500 opacity-100 bg-white/5" : ""}`}
-          title="Nova Camada Personalizada"
-        >
-          <Plus size={14} />
-        </button>
       </div>
 
       {/* Preset Action Buttons Toolbar (icon-only) */}
-      <div className="grid grid-cols-5 gap-1 mb-3.5 bg-black/10 dark:bg-black/20 p-1.5 rounded-xl border border-white/5">
+      <div
+        className={`grid grid-cols-5 gap-1 mb-3.5 ${!isDarkTheme ? "bg-white/10" : "bg-black/10"} p-1.5 rounded-md border border-white/5`}
+      >
         <button
           type="button"
           onClick={showAllLayers}
-          className="h-7 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 transition-all border border-emerald-500/10 cursor-pointer flex items-center justify-center"
+          className={`h-7 rounded ${!isDarkTheme ? "bg-emerald-500 text-white  hover:bg-emerald-500/70" : "bg-emerald-500/10 text-emerald-400  hover:bg-emerald-500/20"} hover:bg-emerald-500/20  transition-all border border-emerald-500/10 cursor-pointer flex items-center justify-center`}
           title="Exibir todas as camadas"
         >
           <Eye size={12} />
@@ -315,7 +290,7 @@ export default function LayersPanel({
         <button
           type="button"
           onClick={hideAllLayers}
-          className="h-7 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-all border border-red-500/10 cursor-pointer flex items-center justify-center"
+          className={`h-7 rounded ${!isDarkTheme ? "bg-red-500 text-white  hover:bg-red-500/70" : "bg-red-500/10 text-red-400  hover:bg-red-500/20"} hover:bg-red-500/20 transition-all border border-red-500/10 cursor-pointer flex items-center justify-center`}
           title="Ocultar todas as camadas"
         >
           <EyeOff size={12} />
@@ -323,7 +298,7 @@ export default function LayersPanel({
         <button
           type="button"
           onClick={lockAllLayers}
-          className="h-7 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 transition-all border border-amber-500/10 cursor-pointer flex items-center justify-center"
+          className={`h-7 rounded ${!isDarkTheme ? "bg-amber-500 text-white  hover:bg-amber-500/70" : "bg-amber-500/10 text-amber-400  hover:bg-amber-500/20"} hover:bg-amber-500/20 transition-all border border-amber-500/10 cursor-pointer flex items-center justify-center`}
           title="Bloquear todas as camadas"
         >
           <Lock size={12} />
@@ -331,7 +306,7 @@ export default function LayersPanel({
         <button
           type="button"
           onClick={unlockAllLayers}
-          className="h-7 rounded bg-slate-500/10 hover:bg-slate-500/20 text-slate-300 transition-all border border-slate-500/10 cursor-pointer flex items-center justify-center"
+          className={`h-7 rounded ${!isDarkTheme ? "bg-slate-500 text-white  hover:bg-slate-500/70" : "bg-slate-500/10 text-slate-300  hover:bg-slate-500/20"} hover:bg-slate-500/20 transition-all border border-slate-500/10 cursor-pointer flex items-center justify-center`}
           title="Desbloquear todas as camadas"
         >
           <Unlock size={12} />
@@ -339,72 +314,12 @@ export default function LayersPanel({
         <button
           type="button"
           onClick={resetLayerOrder}
-          className="h-7 rounded bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 transition-all border border-sky-500/10 cursor-pointer flex items-center justify-center"
+          className={`h-7 rounded ${!isDarkTheme ? "bg-sky-500 text-white  hover:bg-sky-500/70" : "bg-sky-500/10 text-sky-400  hover:bg-sky-500/20"} hover:bg-sky-500/20 transition-all border border-sky-500/10 cursor-pointer flex items-center justify-center`}
           title="Resetar ordem de renderização"
         >
           <RotateCcw size={12} />
         </button>
       </div>
-
-      {/* Add Custom Layer Form */}
-      {isAdding && (
-        <form
-          onSubmit={handleAddSubmit}
-          className="mb-3.5 p-3 rounded-xl border border-dashed border-white/10 bg-white/5 space-y-2.5"
-        >
-          <div>
-            <label className="block text-[9px] uppercase opacity-50 mb-1">
-              Nome da Camada
-            </label>
-            <input
-              type="text"
-              placeholder="Ex: Monstros, Ruínas..."
-              value={newLayerName}
-              onChange={(e) => setNewLayerName(e.target.value)}
-              className="w-full text-xs p-1.5 rounded-lg bg-black/20 border border-white/10 text-inherit focus:outline-none focus:border-amber-500"
-              autoFocus
-            />
-          </div>
-
-          <div>
-            <label className="block text-[9px] uppercase opacity-50 mb-1">
-              Cor do Marcador
-            </label>
-            <div className="flex flex-wrap gap-1.5">
-              {availableColors.map((color) => (
-                <button
-                  type="button"
-                  key={color.class}
-                  onClick={() => setNewLayerColor(color.class)}
-                  className={`w-4 h-4 rounded-full ${color.class} border-2 transition-all ${
-                    newLayerColor === color.class
-                      ? "border-white scale-125"
-                      : "border-transparent opacity-65 hover:opacity-100"
-                  }`}
-                  title={color.name}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="flex justify-end gap-1.5 pt-1 border-t border-white/5">
-            <button
-              type="button"
-              onClick={() => setIsAdding(false)}
-              className="px-2.5 py-1 text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg cursor-pointer"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              disabled={!newLayerName.trim()}
-              className="px-2.5 py-1 text-[10px] bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg disabled:opacity-50 flex items-center gap-0.5 cursor-pointer"
-            >
-              Criar
-            </button>
-          </div>
-        </form>
-      )}
 
       {/* Dynamic Ordered Layers List - SELF CONTAINED OVERFLOW CONTAINER */}
       <div className="space-y-1.5 overflow-y-auto pr-1 no-scrollbar scrollbar-thin flex-1 min-h-0">
@@ -427,8 +342,12 @@ export default function LayersPanel({
                   : dragOverIdx === idx
                     ? "border-t-2 border-t-amber-500 bg-amber-500/10"
                     : !isVisible
-                      ? "bg-black/10 opacity-60 border-transparent hover:border-white/5"
-                      : "bg-white/5 border-transparent hover:border-white/5"
+                      ? isDarkTheme
+                        ? "bg-black/10 opacity-60 border-transparent hover:border-white/5"
+                        : "bg-slate-300 opacity-60 border-slate-200 hover:border-slate-300"
+                      : isDarkTheme
+                        ? "bg-white/5 border-transparent hover:border-white/5"
+                        : "bg-white border-slate-200 hover:border-slate-300 shadow-sm"
               }`}
             >
               <div className="flex items-center justify-between">
@@ -503,27 +422,6 @@ export default function LayersPanel({
                     >
                       {layer.name}
                     </span>
-                  )}
-
-                  {/* Delete Custom Layer X */}
-                  {layer.isCustom && onDeleteCustomLayer && (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (
-                          confirm(
-                            `Excluir a camada personalizada "${layer.name}"?`,
-                          )
-                        ) {
-                          onDeleteCustomLayer(layer.id);
-                        }
-                      }}
-                      className="p-0.5 rounded text-red-500 hover:bg-red-500/10 cursor-pointer ml-1 shrink-0"
-                      title="Excluir Camada Personalizada"
-                    >
-                      <X size={10} />
-                    </button>
                   )}
                 </div>
 

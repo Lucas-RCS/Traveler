@@ -1,5 +1,6 @@
 import { Map } from "lucide-react";
 import { Campaign, Point } from "../types";
+import { formatSignedCoordinate, mapPointToGeo } from "../utils/coordinates";
 
 interface MiniMapProps {
   campaign: Campaign;
@@ -16,9 +17,9 @@ export default function MiniMap({
   isDarkTheme,
   onUpdateScale,
 }: MiniMapProps) {
-  // Round coordinates for cleaner displays
-  const xCoord = cursorPos ? Math.round(cursorPos.x) : 0;
-  const yCoord = cursorPos ? Math.round(cursorPos.y) : 0;
+  const geoCoords = cursorPos
+    ? mapPointToGeo(cursorPos, campaign)
+    : { longitude: 0, latitude: 0 };
 
   // Convert map coordinates to approximate miles or kilometers for scale
   // Using user calibrated scale (km per pixel) defaulting to 0.5
@@ -42,14 +43,20 @@ export default function MiniMap({
       </div>
 
       {/* Coordinate HUD */}
-      <div className="flex justify-between items-center p-2 rounded-xl bg-black/15 border border-white/5 font-mono">
+      <div
+        className={`flex justify-between items-center p-2 rounded-xl ${!isDarkTheme ? "bg-white/30 border border-white/5 font-mono" : "bg-white/5 border border-white/5 font-mono"}`}
+      >
         <div className="flex items-center gap-2">
           <span className="opacity-40">LAT:</span>
-          <span className="font-semibold text-amber-400">{yCoord}</span>
+          <span className="font-semibold text-amber-400">
+            {formatSignedCoordinate(geoCoords.latitude)}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <span className="opacity-40">LON:</span>
-          <span className="font-semibold text-amber-400">{xCoord}</span>
+          <span className="font-semibold text-amber-400">
+            {formatSignedCoordinate(geoCoords.longitude)}
+          </span>
         </div>
       </div>
 
