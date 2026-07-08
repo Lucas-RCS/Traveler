@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, MouseEvent } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Castle,
@@ -786,6 +787,52 @@ export default function MapCanvas({
     }
   };
 
+  const routeDrawingHud =
+    typeof document !== "undefined" &&
+    activeTool === "draw-route" &&
+    drawingRoutePoints.length > 0
+      ? createPortal(
+          <div
+            onMouseDown={(e) => e.stopPropagation()}
+            className="fixed top-4 left-1/2 -translate-x-1/2 z-[90] w-[calc(100vw-2rem)] max-w-xl bg-slate-900/90 border border-purple-500/40 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center justify-between gap-3 backdrop-blur-md pointer-events-auto"
+          >
+            <span className="text-xs font-medium text-purple-400 flex items-center gap-1.5 animate-pulse">
+              <span className="w-2 h-2 rounded-full bg-purple-500" /> Desenhando
+              Rota ({drawingRoutePoints.length} nós)
+            </span>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={completeRoute}
+                disabled={drawingRoutePoints.length < 2}
+                className="bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 font-semibold shadow transition-colors cursor-pointer"
+              >
+                <Check size={14} /> Concluir Rota
+              </button>
+              <button
+                onClick={() => {
+                  setDrawingRoutePoints([]);
+                  setActiveTool("select");
+                }}
+                className="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
+
+  const routePreviewPoints = pendingRoutePoints ?? drawingRoutePoints;
+  const routePreviewColor = pendingRoutePoints ? newRouteColor : "#A855F7";
+  const routePreviewDasharray = pendingRoutePoints
+    ? newRouteCategory === "Trilha"
+      ? "6,4"
+      : newRouteCategory === "Túneis"
+        ? "2,4"
+        : undefined
+    : "6,4";
+
   return (
     <div
       className="relative w-full h-full overflow-hidden select-none"
@@ -1534,30 +1581,31 @@ export default function MapCanvas({
           )}
 
           {/* ROUTE DRAWING IN-PROGRESS LAYER */}
-          {activeTool === "draw-route" && drawingRoutePoints.length > 0 && (
-            <g>
-              <polyline
-                points={drawingRoutePoints
-                  .map((p) => `${p.x},${p.y}`)
-                  .join(" ")}
-                fill="none"
-                stroke="#A855F7"
-                strokeWidth="2.5"
-                strokeDasharray="6,4"
-              />
-              {drawingRoutePoints.map((p, idx) => (
-                <circle
-                  key={`draw-rv-${idx}`}
-                  cx={p.x}
-                  cy={p.y}
-                  r="4"
-                  fill="#A855F7"
-                  stroke="#fff"
-                  strokeWidth="1"
+          {(activeTool === "draw-route" || pendingRoutePoints) &&
+            routePreviewPoints.length > 0 && (
+              <g>
+                <polyline
+                  points={routePreviewPoints
+                    .map((p) => `${p.x},${p.y}`)
+                    .join(" ")}
+                  fill="none"
+                  stroke={routePreviewColor}
+                  strokeWidth="2.5"
+                  strokeDasharray={routePreviewDasharray}
                 />
-              ))}
-            </g>
-          )}
+                {routePreviewPoints.map((p, idx) => (
+                  <circle
+                    key={`draw-rv-${idx}`}
+                    cx={p.x}
+                    cy={p.y}
+                    r="4"
+                    fill={routePreviewColor}
+                    stroke="#fff"
+                    strokeWidth="1"
+                  />
+                ))}
+              </g>
+            )}
         </svg>
 
         {/* LAYER 3: POINTS OF INTEREST / PINS (HTML Overlays for absolute responsiveness) */}
@@ -1746,34 +1794,6 @@ export default function MapCanvas({
                 Novo Comentário...
               </span>
             </div>
-          </div>
-        )}
-
-        {activeTool === "draw-route" && drawingRoutePoints.length > 0 && (
-          <div
-            onMouseDown={(e) => e.stopPropagation()}
-            className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-slate-900/90 border border-purple-500/40 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-3 backdrop-blur-md"
-          >
-            <span className="text-xs font-medium text-purple-400 flex items-center gap-1.5 animate-pulse">
-              <span className="w-2 h-2 rounded-full bg-purple-500" /> Desenhando
-              Rota ({drawingRoutePoints.length} nós)
-            </span>
-            <button
-              onClick={completeRoute}
-              disabled={drawingRoutePoints.length < 2}
-              className="bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 font-semibold shadow transition-colors cursor-pointer"
-            >
-              <Check size={14} /> Concluir Rota
-            </button>
-            <button
-              onClick={() => {
-                setDrawingRoutePoints([]);
-                setActiveTool("select");
-              }}
-              className="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
-            >
-              Cancelar
-            </button>
           </div>
         )}
       </div>
@@ -2180,6 +2200,7 @@ export default function MapCanvas({
           </div>
         )}
       </AnimatePresence>
+      {routeDrawingHud}
     </div>
   );
 }

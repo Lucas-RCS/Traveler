@@ -8,7 +8,7 @@ import {
   Moon,
   MessageSquare,
   Info,
-  Star,
+  Route,
 } from "lucide-react";
 
 interface FloatingToolbarProps {
@@ -64,7 +64,7 @@ export default function FloatingToolbar({
     {
       id: "draw-route" as const,
       label: "Criar Rota",
-      icon: <Star size={14} />,
+      icon: <Route size={14} />,
       desc: "Desenha rotas conectando pontos (atalho: T)",
     },
     {
