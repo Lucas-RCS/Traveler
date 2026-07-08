@@ -190,10 +190,34 @@ export default function MapCanvas({
   const handleWheel = (e: WheelEvent) => {
     e.preventDefault();
     if (cameraLocked) return;
-    const zoomFactor = 1.1;
-    const newZoom = e.deltaY < 0 ? zoom * zoomFactor : zoom / zoomFactor;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const zoomFactor = 1.08;
+    const zoomDirection = e.deltaY < 0 ? 1 : -1;
+    const nextZoom = zoom * Math.pow(zoomFactor, zoomDirection);
     // Bound zoom between 0.2x and 5x
-    setZoom(Math.max(0.2, Math.min(5, newZoom)));
+    const boundedZoom = Math.max(0.2, Math.min(5, nextZoom));
+
+    if (Math.abs(boundedZoom - zoom) < 0.01) return;
+
+    const rect = container.getBoundingClientRect();
+    const viewportOffset = {
+      x: e.clientX - rect.left - rect.width / 2,
+      y: e.clientY - rect.top - rect.height / 2,
+    };
+    const zoomRatio = boundedZoom / zoom;
+
+    commitPan({
+      x:
+        viewportOffset.x -
+        (viewportOffset.x - precisePanRef.current.x) * zoomRatio,
+      y:
+        viewportOffset.y -
+        (viewportOffset.y - precisePanRef.current.y) * zoomRatio,
+    });
+    setZoom(boundedZoom);
   };
 
   // Convert client cursor coordinates to map space coordinates

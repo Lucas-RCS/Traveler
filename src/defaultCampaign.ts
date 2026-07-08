@@ -6,200 +6,157 @@ export const DEFAULT_CAMPAIGN: Campaign = {
   name: "Império de Alexandria",
   description:
     "Mapa-mundi completo da campanha, cobrindo o continente setentrional, a Ilha Esmeralda, a Ilha Rósea, as Terras Sombrias e a Geleira Austral, com regiões, pontos de interesse e rotas marcados a partir da imagem de referência.",
-  mapUrl: defaultMapPng,
+  mapUrl: "/src/imgs/defaultMap.png",
   mapType: "raster",
   mapWidth: 7680,
   mapHeight: 3812,
   regions: [
     {
       id: "reg-norte",
-      name: "Planícies do Norte",
-      type: "Planície",
+      name: "Deserto do Norte",
+      type: "Deserto",
       biome: "Temperado",
-      climate: "Continental Moderado",
-      color: "#D9C97A",
-      opacity: 0.16,
-      tags: ["continente", "civilização", "rios"],
+      climate: "Seco",
+      color: "#f0dc7a",
+      opacity: 0.24,
+      tags: ["continente", "civilização"],
       description:
-        "Vasta extensão de planícies e planaltos ondulados que forma o continente setentrional do mapa, cortada por uma extensa rede fluvial e por uma fronteira política pontilhada que sugere a divisa entre dois reinos ou províncias.",
-      notes:
-        "Notas do mestre: os rios que cruzam a região favorecem rotas comerciais internas; a linha pontilhada pode ser usada como fronteira entre dois domínios rivais.",
+        "Vasta extensão de desertos e planícies ondulados que forma o continente setentrional do mapa, cortada por uma extensa rede fluvial e por uma fronteira política pontilhada que sugere a divisa entre dois reinos ou províncias.",
+      notes: "",
       points: [
         {
-          x: 0,
-          y: 0,
+          x: 4,
+          y: -2,
         },
         {
-          x: 5775,
-          y: 0,
+          x: 7684,
+          y: -2,
         },
         {
-          x: 5750,
-          y: 550,
+          x: 7680,
+          y: 733,
         },
         {
-          x: 5850,
-          y: 850,
+          x: 7428,
+          y: 604,
         },
         {
-          x: 5650,
-          y: 1025,
+          x: 6834,
+          y: 459,
         },
         {
-          x: 5250,
-          y: 1150,
+          x: 6171,
+          y: 452,
         },
         {
-          x: 4750,
-          y: 1350,
+          x: 6016,
+          y: 510,
         },
         {
-          x: 4250,
-          y: 1500,
+          x: 5862,
+          y: 543,
         },
         {
-          x: 3750,
-          y: 1625,
+          x: 5675,
+          y: 678,
         },
         {
-          x: 3250,
-          y: 1675,
+          x: 5430,
+          y: 749,
         },
         {
-          x: 2800,
-          y: 1600,
+          x: 5052,
+          y: 801,
         },
         {
-          x: 2400,
-          y: 1450,
+          x: 4673,
+          y: 1011,
         },
         {
-          x: 2000,
-          y: 1275,
+          x: 4521,
+          y: 1097,
         },
         {
-          x: 1600,
-          y: 1100,
+          x: 4440,
+          y: 1220,
         },
         {
-          x: 1200,
-          y: 975,
+          x: 4249,
+          y: 1282,
         },
         {
-          x: 750,
-          y: 900,
+          x: 3825,
+          y: 1441,
         },
         {
-          x: 300,
-          y: 825,
+          x: 3532,
+          y: 1568,
         },
         {
-          x: 0,
-          y: 750,
+          x: 3293,
+          y: 1579,
+        },
+        {
+          x: 3134,
+          y: 1472,
+        },
+        {
+          x: 2727,
+          y: 1288,
+        },
+        {
+          x: 2188,
+          y: 942,
+        },
+        {
+          x: 2048,
+          y: 919,
+        },
+        {
+          x: 1796,
+          y: 847,
+        },
+        {
+          x: 1626,
+          y: 792,
+        },
+        {
+          x: 1473,
+          y: 641,
+        },
+        {
+          x: 1308,
+          y: 624,
+        },
+        {
+          x: 913,
+          y: 756,
+        },
+        {
+          x: 752,
+          y: 864,
+        },
+        {
+          x: 559,
+          y: 843,
+        },
+        {
+          x: 504,
+          y: 764,
+        },
+        {
+          x: 373,
+          y: 711,
+        },
+        {
+          x: 4,
+          y: 539,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-norte-1",
-          text: "Comentário inicial sobre Planícies do Norte.",
-        },
-      ],
-      regionMarkers: [
-        {
-          id: "regionMarkers-reg-norte-1",
-          text: "Marcador de referência para Planícies do Norte.",
-        },
-      ],
-      regionNotes: [
-        {
-          id: "regionNotes-reg-norte-1",
-          text: "Notas do mestre: os rios que cruzam a região favorecem rotas comerciais internas; a linha pontilhada pode ser usada como fronteira entre dois domínios rivais.",
-        },
-      ],
-      regionReferences: [
-        {
-          id: "ref-reg-norte-1",
-          label: "Referência de lore — Planícies do Norte",
-          url: "",
-        },
-      ],
-    },
-    {
-      id: "reg-vale-verde",
-      name: "Vale Fértil do Sul",
-      type: "Floresta",
-      biome: "Subtropical Úmido",
-      climate: "Úmido / Chuvas Sazonais",
-      color: "#7CC142",
-      opacity: 0.22,
-      tags: ["agricultura", "rio", "fertilidade"],
-      description:
-        "Baixada fértil formada pelo delta dos rios que descem das Planícies do Norte, reconhecida por suas terras verdejantes e alta produtividade agrícola.",
-      notes:
-        "Notas do mestre: bom local para uma vila agrícola ou um conflito por terras férteis entre nobres locais.",
-      points: [
-        {
-          x: 2800,
-          y: 1175,
-        },
-        {
-          x: 5000,
-          y: 1275,
-        },
-        {
-          x: 5400,
-          y: 1450,
-        },
-        {
-          x: 5000,
-          y: 1600,
-        },
-        {
-          x: 4350,
-          y: 1650,
-        },
-        {
-          x: 3750,
-          y: 1700,
-        },
-        {
-          x: 3250,
-          y: 1675,
-        },
-        {
-          x: 2950,
-          y: 1500,
-        },
-        {
-          x: 2800,
-          y: 1300,
-        },
-      ],
-      regionComments: [
-        {
-          id: "regionComments-reg-vale-verde-1",
-          text: "Comentário inicial sobre Vale Fértil do Sul.",
-        },
-      ],
-      regionMarkers: [
-        {
-          id: "regionMarkers-reg-vale-verde-1",
-          text: "Marcador de referência para Vale Fértil do Sul.",
-        },
-      ],
-      regionNotes: [
-        {
-          id: "regionNotes-reg-vale-verde-1",
-          text: "Notas do mestre: bom local para uma vila agrícola ou um conflito por terras férteis entre nobres locais.",
-        },
-      ],
-      regionReferences: [
-        {
-          id: "ref-reg-vale-verde-1",
-          label: "Referência de lore — Vale Fértil do Sul",
-          url: "",
-        },
-      ],
+      regionComments: [],
+      regionMarkers: [],
+      regionNotes: [],
+      regionReferences: [],
     },
     {
       id: "reg-terras-vermelhas",
@@ -208,7 +165,7 @@ export const DEFAULT_CAMPAIGN: Campaign = {
       biome: "Semiárido",
       climate: "Quente e Seco",
       color: "#C9713F",
-      opacity: 0.2,
+      opacity: 0.25,
       tags: ["deserto", "terraços", "isolamento"],
       description:
         "Região de solo avermelhado e terraços estriados, separada do restante do continente por uma língua de mar. Uma formação escura e irregular no interior sugere uma cratera antiga ou ruína vulcânica.",
@@ -216,44 +173,103 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         "Notas do mestre: a mancha escura ao centro pode esconder uma ruína ou ser marcada como ponto de interesse ainda não nomeado.",
       points: [
         {
-          x: 5775,
-          y: 0,
+          x: 5799,
+          y: 633,
+        },
+        {
+          x: 5833,
+          y: 556,
+        },
+        {
+          x: 6171,
+          y: 452,
+        },
+        {
+          x: 6745,
+          y: 457,
+        },
+        {
+          x: 6849,
+          y: 459,
+        },
+        {
+          x: 7226,
+          y: 552,
+        },
+        {
+          x: 7429,
+          y: 601,
         },
         {
           x: 7680,
-          y: 0,
+          y: 736,
         },
         {
           x: 7680,
-          y: 1500,
+          y: 1278,
         },
         {
-          x: 7350,
-          y: 1675,
+          x: 7597,
+          y: 1243,
         },
         {
-          x: 7000,
-          y: 1500,
+          x: 7520,
+          y: 1204,
         },
         {
-          x: 6500,
-          y: 1100,
+          x: 7478,
+          y: 1251,
         },
         {
-          x: 6100,
-          y: 650,
+          x: 7392,
+          y: 1327,
         },
         {
-          x: 5800,
-          y: 300,
+          x: 7280,
+          y: 1439,
+        },
+        {
+          x: 7103,
+          y: 1469,
+        },
+        {
+          x: 6902,
+          y: 1369,
+        },
+        {
+          x: 6726,
+          y: 1327,
+        },
+        {
+          x: 6628,
+          y: 1294,
+        },
+        {
+          x: 6451,
+          y: 1276,
+        },
+        {
+          x: 6307,
+          y: 1307,
+        },
+        {
+          x: 6227,
+          y: 1267,
+        },
+        {
+          x: 6171,
+          y: 1097,
+        },
+        {
+          x: 6047,
+          y: 930,
+        },
+        {
+          x: 5871,
+          y: 747,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-terras-vermelhas-1",
-          text: "Comentário inicial sobre Terras Vermelhas.",
-        },
-      ],
+      regionComments: [],
       regionMarkers: [
         {
           id: "regionMarkers-reg-terras-vermelhas-1",
@@ -289,80 +305,127 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         "Notas do mestre: os lagos gêmeos podem conter ruínas submersas ou uma comunidade isolada.",
       points: [
         {
-          x: 150,
-          y: 1600,
+          x: 203,
+          y: 1557,
         },
         {
-          x: 550,
-          y: 1500,
+          x: 294,
+          y: 1455,
         },
         {
-          x: 1150,
-          y: 1540,
+          x: 378,
+          y: 1359,
         },
         {
-          x: 1600,
-          y: 1675,
+          x: 471,
+          y: 1338,
         },
         {
-          x: 1950,
-          y: 1875,
+          x: 877,
+          y: 1321,
         },
         {
-          x: 2150,
-          y: 2100,
+          x: 1197,
+          y: 1370,
         },
         {
-          x: 2225,
-          y: 2350,
+          x: 1362,
+          y: 1501,
         },
         {
-          x: 2200,
-          y: 2725,
+          x: 1472,
+          y: 1730,
         },
         {
-          x: 2100,
-          y: 3000,
+          x: 1676,
+          y: 1918,
         },
         {
-          x: 1900,
-          y: 3225,
+          x: 1951,
+          y: 2025,
         },
         {
-          x: 1550,
-          y: 3375,
+          x: 2045,
+          y: 2148,
         },
         {
-          x: 1100,
-          y: 3400,
+          x: 2473,
+          y: 2327,
         },
         {
-          x: 650,
-          y: 3300,
+          x: 2545,
+          y: 2473,
         },
         {
-          x: 300,
-          y: 3075,
+          x: 2566,
+          y: 2672,
         },
         {
-          x: 100,
-          y: 2725,
+          x: 2814,
+          y: 2999,
         },
         {
-          x: 50,
-          y: 2300,
+          x: 2721,
+          y: 3119,
         },
         {
-          x: 75,
-          y: 1950,
+          x: 2134,
+          y: 3426,
+        },
+        {
+          x: 1532,
+          y: 3442,
+        },
+        {
+          x: 1012,
+          y: 3429,
+        },
+        {
+          x: 735,
+          y: 3425,
+        },
+        {
+          x: 476,
+          y: 3332,
+        },
+        {
+          x: 243,
+          y: 3138,
+        },
+        {
+          x: 139,
+          y: 2985,
+        },
+        {
+          x: 78,
+          y: 2727,
+        },
+        {
+          x: 80,
+          y: 2465,
+        },
+        {
+          x: 164,
+          y: 2276,
+        },
+        {
+          x: 248,
+          y: 2024,
+        },
+        {
+          x: 273,
+          y: 1966,
+        },
+        {
+          x: 217,
+          y: 1844,
+        },
+        {
+          x: 187,
+          y: 1700,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-floresta-esmeralda-1",
-          text: "Comentário inicial sobre Floresta da Ilha Esmeralda.",
-        },
-      ],
+      regionComments: [],
       regionMarkers: [
         {
           id: "regionMarkers-reg-floresta-esmeralda-1",
@@ -384,97 +447,13 @@ export const DEFAULT_CAMPAIGN: Campaign = {
       ],
     },
     {
-      id: "reg-savana-dourada",
-      name: "Savana Dourada",
-      type: "Planície",
-      biome: "Tropical Seco",
-      climate: "Quente com Estação Seca",
-      color: "#C9D46B",
-      opacity: 0.24,
-      tags: ["ilha", "savana", "planície costeira"],
-      description:
-        "Extensão de gramíneas douradas na porção leste da Ilha Esmeralda, cortada por riachos que descem da floresta vizinha até a costa.",
-      notes: "Notas do mestre: boa área para tribos nômades ou postos de caça.",
-      points: [
-        {
-          x: 1500,
-          y: 1975,
-        },
-        {
-          x: 2000,
-          y: 2050,
-        },
-        {
-          x: 2225,
-          y: 2275,
-        },
-        {
-          x: 2300,
-          y: 2500,
-        },
-        {
-          x: 2250,
-          y: 2825,
-        },
-        {
-          x: 2125,
-          y: 3075,
-        },
-        {
-          x: 1900,
-          y: 3275,
-        },
-        {
-          x: 1600,
-          y: 3375,
-        },
-        {
-          x: 1375,
-          y: 3300,
-        },
-        {
-          x: 1400,
-          y: 2850,
-        },
-        {
-          x: 1475,
-          y: 2350,
-        },
-      ],
-      regionComments: [
-        {
-          id: "regionComments-reg-savana-dourada-1",
-          text: "Comentário inicial sobre Savana Dourada.",
-        },
-      ],
-      regionMarkers: [
-        {
-          id: "regionMarkers-reg-savana-dourada-1",
-          text: "Marcador de referência para Savana Dourada.",
-        },
-      ],
-      regionNotes: [
-        {
-          id: "regionNotes-reg-savana-dourada-1",
-          text: "Notas do mestre: boa área para tribos nômades ou postos de caça.",
-        },
-      ],
-      regionReferences: [
-        {
-          id: "ref-reg-savana-dourada-1",
-          label: "Referência de lore — Savana Dourada",
-          url: "",
-        },
-      ],
-    },
-    {
       id: "reg-ilhota-ferrosa",
-      name: "Ilhota Ferrosa",
-      type: "Ilha",
+      name: "Ilha Cogumelo",
+      type: "Outro",
       biome: "Árido Costeiro",
       climate: "Seco",
       color: "#8B5A2B",
-      opacity: 0.3,
+      opacity: 0.23,
       tags: ["ilhota", "minério", "isolada"],
       description:
         "Pequena ilha rochosa de tonalidade avermelhada-marrom, isolada nas águas entre o continente e a Ilha Esmeralda, possivelmente rica em depósitos minerais.",
@@ -482,36 +461,39 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         "Notas do mestre: útil como parada de reabastecimento ou esconderijo de piratas.",
       points: [
         {
-          x: 2625,
-          y: 1625,
+          x: 2502,
+          y: 1662,
         },
         {
-          x: 2950,
-          y: 1600,
+          x: 2579,
+          y: 1601,
         },
         {
-          x: 3000,
-          y: 1800,
+          x: 2703,
+          y: 1557,
         },
         {
-          x: 2875,
-          y: 1925,
+          x: 2759,
+          y: 1605,
         },
         {
-          x: 2675,
-          y: 1900,
+          x: 2804,
+          y: 1646,
         },
         {
-          x: 2600,
-          y: 1750,
+          x: 2782,
+          y: 1754,
+        },
+        {
+          x: 2604,
+          y: 1823,
+        },
+        {
+          x: 2471,
+          y: 1749,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-ilhota-ferrosa-1",
-          text: "Comentário inicial sobre Ilhota Ferrosa.",
-        },
-      ],
+      regionComments: [],
       regionMarkers: [
         {
           id: "regionMarkers-reg-ilhota-ferrosa-1",
@@ -547,36 +529,51 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         "Notas do mestre: pode servir como marco de navegação entre as ilhas centrais.",
       points: [
         {
-          x: 3500,
-          y: 1875,
+          x: 3496,
+          y: 1863,
         },
         {
-          x: 3850,
-          y: 1840,
+          x: 3594,
+          y: 1756,
         },
         {
-          x: 4000,
-          y: 1975,
+          x: 3854,
+          y: 1810,
         },
         {
-          x: 3975,
-          y: 2125,
+          x: 3913,
+          y: 1956,
         },
         {
-          x: 3750,
-          y: 2175,
+          x: 3932,
+          y: 2009,
         },
         {
-          x: 3550,
-          y: 2075,
+          x: 3920,
+          y: 2087,
+        },
+        {
+          x: 3867,
+          y: 2124,
+        },
+        {
+          x: 3699,
+          y: 2170,
+        },
+        {
+          x: 3555,
+          y: 2215,
+        },
+        {
+          x: 3428,
+          y: 2154,
+        },
+        {
+          x: 3420,
+          y: 2001,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-ilhota-verdejante-1",
-          text: "Comentário inicial sobre Ilhota Verdejante.",
-        },
-      ],
+      regionComments: [],
       regionMarkers: [
         {
           id: "regionMarkers-reg-ilhota-verdejante-1",
@@ -612,28 +609,47 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         "Notas do mestre: contraste climático interessante por estar próxima da região gelada.",
       points: [
         {
-          x: 2525,
-          y: 2340,
+          x: 2595,
+          y: 2298,
         },
         {
-          x: 2825,
-          y: 2340,
+          x: 2725,
+          y: 2254,
         },
         {
-          x: 2825,
-          y: 2600,
+          x: 2839,
+          y: 2373,
         },
         {
-          x: 2525,
-          y: 2600,
+          x: 2886,
+          y: 2530,
+        },
+        {
+          x: 2862,
+          y: 2603,
+        },
+        {
+          x: 2775,
+          y: 2681,
+        },
+        {
+          x: 2591,
+          y: 2645,
+        },
+        {
+          x: 2562,
+          y: 2603,
+        },
+        {
+          x: 2553,
+          y: 2476,
+        },
+        {
+          x: 2560,
+          y: 2389,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-ilhota-sul-1",
-          text: "Comentário inicial sobre Ilhota do Sul.",
-        },
-      ],
+      regionComments: [],
       regionMarkers: [
         {
           id: "regionMarkers-reg-ilhota-sul-1",
@@ -656,12 +672,12 @@ export const DEFAULT_CAMPAIGN: Campaign = {
     },
     {
       id: "reg-ilha-rosea",
-      name: "Ilha Rósea (Terras Fúngicas)",
+      name: "Ilha Rósea",
       type: "Ilha",
       biome: "Exótico Úmido",
       climate: "Úmido Anômalo",
       color: "#D98FC4",
-      opacity: 0.3,
+      opacity: 0.23,
       tags: ["exótico", "fungos", "cratera", "mágico"],
       description:
         "Ilha de coloração rósea incomum, coberta por vegetação e esporos fúngicos, com uma cratera esbranquiçada no centro que abriga um ponto avermelhado — possivelmente um lago de cristal ou ruína mágica.",
@@ -669,56 +685,79 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         "Notas do mestre: forte candidata a bioma de origem mágica ou corrompida; a cratera central é um ótimo local para um santuário ou perigo sobrenatural.",
       points: [
         {
-          x: 4225,
-          y: 1500,
+          x: 4318,
+          y: 1448,
         },
         {
-          x: 4750,
-          y: 1475,
+          x: 4617,
+          y: 1380,
         },
         {
-          x: 5150,
-          y: 1575,
+          x: 4922,
+          y: 1633,
         },
         {
-          x: 5325,
-          y: 1825,
+          x: 5099,
+          y: 1653,
         },
         {
-          x: 5300,
-          y: 2100,
+          x: 5256,
+          y: 1659,
         },
         {
-          x: 5150,
-          y: 2325,
+          x: 5367,
+          y: 1669,
         },
         {
-          x: 4850,
-          y: 2500,
+          x: 5446,
+          y: 1830,
         },
         {
-          x: 4500,
-          y: 2475,
+          x: 5309,
+          y: 1980,
         },
         {
-          x: 4250,
-          y: 2275,
+          x: 5252,
+          y: 2127,
         },
         {
-          x: 4125,
-          y: 1975,
+          x: 5262,
+          y: 2259,
         },
         {
-          x: 4150,
-          y: 1675,
+          x: 5181,
+          y: 2437,
+        },
+        {
+          x: 4884,
+          y: 2559,
+        },
+        {
+          x: 4711,
+          y: 2595,
+        },
+        {
+          x: 4588,
+          y: 2538,
+        },
+        {
+          x: 4404,
+          y: 2240,
+        },
+        {
+          x: 4322,
+          y: 1935,
+        },
+        {
+          x: 4084,
+          y: 1713,
+        },
+        {
+          x: 4070,
+          y: 1589,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-ilha-rosea-1",
-          text: "Comentário inicial sobre Ilha Rósea (Terras Fúngicas).",
-        },
-      ],
+      regionComments: [],
       regionMarkers: [
         {
           id: "regionMarkers-reg-ilha-rosea-1",
@@ -746,7 +785,7 @@ export const DEFAULT_CAMPAIGN: Campaign = {
       biome: "Amaldiçoado / Basáltico",
       climate: "Árido Sombrio",
       color: "#5B3A4A",
-      opacity: 0.32,
+      opacity: 0.27,
       tags: ["vulcânico", "sombrio", "perigo"],
       description:
         "Arquipélago de rocha escura e fraturada, com veios que lembram fissuras vulcânicas ou marcas de uma antiga catástrofe. O local mais isolado e inóspito do mapa.",
@@ -754,52 +793,163 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         "Notas do mestre: excelente cenário para uma masmorra vulcânica, uma terra amaldiçoada ou o covil de uma ameaça antiga.",
       points: [
         {
-          x: 6450,
-          y: 1500,
+          x: 5714,
+          y: 1840,
         },
         {
-          x: 6950,
-          y: 1450,
+          x: 5823,
+          y: 1658,
         },
         {
-          x: 7350,
-          y: 1500,
+          x: 5866,
+          y: 1562,
         },
         {
-          x: 7680,
-          y: 1600,
+          x: 5921,
+          y: 1455,
         },
         {
-          x: 7680,
-          y: 2500,
+          x: 6056,
+          y: 1378,
         },
         {
-          x: 7400,
-          y: 2700,
+          x: 6140,
+          y: 1440,
+        },
+        {
+          x: 6005,
+          y: 1663,
+        },
+        {
+          x: 6043,
+          y: 1811,
+        },
+        {
+          x: 6212,
+          y: 1678,
+        },
+        {
+          x: 6275,
+          y: 1559,
+        },
+        {
+          x: 6335,
+          y: 1514,
+        },
+        {
+          x: 6393,
+          y: 1591,
+        },
+        {
+          x: 6321,
+          y: 1766,
+        },
+        {
+          x: 6421,
+          y: 1746,
+        },
+        {
+          x: 6467,
+          y: 1630,
+        },
+        {
+          x: 6589,
+          y: 1585,
+        },
+        {
+          x: 6661,
+          y: 1610,
+        },
+        {
+          x: 6591,
+          y: 1808,
+        },
+        {
+          x: 6700,
+          y: 1886,
+        },
+        {
+          x: 6830,
+          y: 1944,
+        },
+        {
+          x: 6945,
+          y: 1874,
+        },
+        {
+          x: 7133,
+          y: 1902,
+        },
+        {
+          x: 7114,
+          y: 2108,
+        },
+        {
+          x: 7168,
+          y: 2417,
+        },
+        {
+          x: 7108,
+          y: 2674,
         },
         {
           x: 7000,
-          y: 2650,
+          y: 2745,
         },
         {
-          x: 6650,
-          y: 2450,
+          x: 6889,
+          y: 2702,
         },
         {
-          x: 6450,
-          y: 2150,
+          x: 6819,
+          y: 2715,
         },
         {
-          x: 6375,
-          y: 1800,
+          x: 6738,
+          y: 2821,
+        },
+        {
+          x: 6521,
+          y: 2937,
+        },
+        {
+          x: 6392,
+          y: 2866,
+        },
+        {
+          x: 6256,
+          y: 2837,
+        },
+        {
+          x: 5894,
+          y: 2649,
+        },
+        {
+          x: 5644,
+          y: 2404,
+        },
+        {
+          x: 5601,
+          y: 2277,
+        },
+        {
+          x: 5645,
+          y: 2127,
+        },
+        {
+          x: 5716,
+          y: 2138,
+        },
+        {
+          x: 5743,
+          y: 2065,
+        },
+        {
+          x: 5678,
+          y: 1908,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-terras-sombrias-1",
-          text: "Comentário inicial sobre Terras Sombrias.",
-        },
-      ],
+      regionComments: [],
       regionMarkers: [
         {
           id: "regionMarkers-reg-terras-sombrias-1",
@@ -835,40 +985,99 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         "Notas do mestre: viagens aqui devem considerar penalidades de suprimentos e fadiga por frio extremo.",
       points: [
         {
-          x: 3500,
-          y: 2925,
+          x: 3595,
+          y: 3455,
         },
         {
-          x: 4750,
-          y: 2850,
+          x: 3766,
+          y: 3367,
         },
         {
-          x: 6000,
-          y: 2825,
+          x: 3869,
+          y: 3260,
         },
         {
-          x: 7000,
-          y: 2825,
+          x: 4062,
+          y: 3223,
         },
         {
-          x: 7680,
-          y: 2850,
+          x: 4121,
+          y: 3181,
         },
         {
-          x: 7680,
-          y: 3810,
+          x: 4123,
+          y: 3107,
         },
         {
-          x: 3500,
-          y: 3810,
+          x: 4164,
+          y: 3045,
+        },
+        {
+          x: 4438,
+          y: 2936,
+        },
+        {
+          x: 4776,
+          y: 2879,
+        },
+        {
+          x: 5056,
+          y: 2674,
+        },
+        {
+          x: 5248,
+          y: 2656,
+        },
+        {
+          x: 5492,
+          y: 2691,
+        },
+        {
+          x: 5646,
+          y: 2816,
+        },
+        {
+          x: 5802,
+          y: 2917,
+        },
+        {
+          x: 5913,
+          y: 3074,
+        },
+        {
+          x: 6089,
+          y: 3026,
+        },
+        {
+          x: 6179,
+          y: 3125,
+        },
+        {
+          x: 6399,
+          y: 3163,
+        },
+        {
+          x: 6637,
+          y: 3168,
+        },
+        {
+          x: 6891,
+          y: 3444,
+        },
+        {
+          x: 7147,
+          y: 3619,
+        },
+        {
+          x: 7247,
+          y: 3811,
+        },
+        {
+          x: 3564,
+          y: 3812,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-geleira-austral-1",
-          text: "Comentário inicial sobre Geleira Austral.",
-        },
-      ],
+      regionComments: [],
       regionMarkers: [
         {
           id: "regionMarkers-reg-geleira-austral-1",
@@ -904,44 +1113,79 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         "Notas do mestre: ótimo obstáculo natural para rotas marítimas, exigindo perícia de navegação ou guia local.",
       points: [
         {
-          x: 3575,
-          y: 2375,
+          x: 3559,
+          y: 2664,
         },
         {
-          x: 4000,
-          y: 2300,
+          x: 3622,
+          y: 2531,
         },
         {
-          x: 4400,
-          y: 2350,
+          x: 3723,
+          y: 2419,
         },
         {
-          x: 4475,
-          y: 2550,
+          x: 3816,
+          y: 2328,
         },
         {
-          x: 4350,
-          y: 2775,
+          x: 3963,
+          y: 2271,
         },
         {
-          x: 4000,
-          y: 2900,
+          x: 4134,
+          y: 2318,
         },
         {
-          x: 3650,
-          y: 2825,
+          x: 4222,
+          y: 2404,
         },
         {
-          x: 3550,
-          y: 2600,
+          x: 4290,
+          y: 2536,
+        },
+        {
+          x: 4405,
+          y: 2735,
+        },
+        {
+          x: 4437,
+          y: 2941,
+        },
+        {
+          x: 4160,
+          y: 3051,
+        },
+        {
+          x: 4131,
+          y: 3110,
+        },
+        {
+          x: 4126,
+          y: 3176,
+        },
+        {
+          x: 4070,
+          y: 3232,
+        },
+        {
+          x: 3869,
+          y: 3259,
+        },
+        {
+          x: 3754,
+          y: 3376,
+        },
+        {
+          x: 3597,
+          y: 3460,
+        },
+        {
+          x: 3541,
+          y: 2857,
         },
       ],
-      regionComments: [
-        {
-          id: "regionComments-reg-arquipelago-gelado-1",
-          text: "Comentário inicial sobre Arquipélago Gelado.",
-        },
-      ],
+      regionComments: [],
       regionMarkers: [
         {
           id: "regionMarkers-reg-arquipelago-gelado-1",
@@ -962,234 +1206,95 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         },
       ],
     },
-  ],
-  pois: [
     {
-      id: "poi-capital-norte",
-      name: "Capital das Planícies",
-      type: "Cidade",
-      x: 3800,
-      y: 650,
+      id: "region-1783445466753",
+      name: "Terras Vermelhas (Lado Esquerdo)",
+      type: "Deserto",
+      biome: "Semiárido",
+      climate: "Quente e Seco",
+      color: "#C9713F",
+      opacity: 0.28,
+      tags: ["deserto", "terraços", "isolamento"],
       description:
-        "Capital do reino do norte, erguida junto à confluência dos principais rios da região.",
-    },
-    {
-      id: "poi-porto-vermelho",
-      name: "Porto Vermelho",
-      type: "Porto",
-      x: 6900,
-      y: 1450,
-      description:
-        "Entreposto comercial nas Terras Vermelhas, único porto natural da região árida.",
-    },
-    {
-      id: "poi-vila-vale",
-      name: "Vila do Vale Fértil",
-      type: "Vila",
-      x: 3700,
-      y: 1350,
-      description:
-        "Pequena vila agrícola que abastece o continente com grãos cultivados no Vale Fértil.",
-    },
-    {
-      id: "poi-porto-esmeralda",
-      name: "Porto da Savana",
-      type: "Porto",
-      x: 2050,
-      y: 2300,
-      description:
-        "Porto comercial na costa leste da Ilha Esmeralda, ponto de partida das rotas marítimas para o continente.",
-    },
-    {
-      id: "poi-templo-lago",
-      name: "Templo dos Lagos Gêmeos",
-      type: "Ruína",
-      x: 1150,
-      y: 2650,
-      description:
-        "Ruínas de um antigo templo situado entre os dois lagos no coração da Floresta Esmeralda.",
-    },
-    {
-      id: "poi-farol-atol",
-      name: "Farol do Atol",
-      type: "Marco",
-      x: 250,
-      y: 2450,
-      description:
-        "Antigo farol erguido sobre o anel de areia branca que circunda a Ilha Esmeralda.",
-    },
-    {
-      id: "poi-santuario-roseo",
-      name: "Santuário da Cratera Rósea",
-      type: "Templo",
-      x: 4750,
-      y: 1950,
-      description:
-        "Local sagrado (ou amaldiçoado) erguido na cratera central da Ilha Rósea.",
-    },
-    {
-      id: "poi-forte-sombrio",
-      name: "Forte das Terras Sombrias",
-      type: "Ruína",
-      x: 7100,
-      y: 2050,
-      description:
-        "Fortaleza em ruínas construída sobre a rocha basáltica das Terras Sombrias.",
-    },
-    {
-      id: "poi-posto-gelado",
-      name: "Posto Avançado Austral",
-      type: "Posto",
-      x: 5000,
-      y: 3000,
-      description:
-        "Última guarnição habitada antes da Geleira Austral, usada para expedições ao gelo.",
-    },
-    {
-      id: "poi-ilhota-ferrosa-marco",
-      name: "Marco da Ilhota Ferrosa",
-      type: "Porto",
-      x: 2775,
-      y: 1750,
-      description:
-        "Pequeno marco de navegação erguido na Ilhota Ferrosa, usado como referência por navegantes.",
-    },
-  ],
-  routes: [
-    {
-      id: "route-comercio-mar",
-      name: "Rota Comercial Marítima",
-      color: "#3B82F6",
-      points: [
-        {
-          x: 6900,
-          y: 1450,
-        },
-        {
-          x: 5500,
-          y: 2000,
-        },
-        {
-          x: 3500,
-          y: 2250,
-        },
-        {
-          x: 2050,
-          y: 2300,
-        },
-      ],
-      length: 480,
-      suppliesCost: 6,
-      obstaclesCount: 3,
-      category: "Marítimo",
-      obstaclesDescription:
-        "Correntes marítimas irregulares e proximidade com a Ilhota Ferrosa exigem atenção da tripulação.",
-      crossingsCount: 0,
+        "Região de solo avermelhado e terraços estriados, separada do restante do continente por uma língua de mar. Uma formação escura e irregular no interior sugere uma cratera antiga ou ruína vulcânica.",
       notes:
-        "Principal rota comercial entre as Terras Vermelhas e a Ilha Esmeralda.",
-      startPoiId: "poi-porto-vermelho",
-      endPoiId: "poi-porto-esmeralda",
-    },
-    {
-      id: "route-interior-norte",
-      name: "Estrada do Vale",
-      color: "#F59E0B",
+        "Notas do mestre: a mancha escura ao centro pode esconder uma ruína ou ser marcada como ponto de interesse ainda não nomeado.",
       points: [
         {
-          x: 3800,
-          y: 650,
+          x: 0,
+          y: 545,
         },
         {
-          x: 3750,
-          y: 1000,
+          x: 405,
+          y: 729,
         },
         {
-          x: 3700,
-          y: 1350,
+          x: 510,
+          y: 770,
+        },
+        {
+          x: 551,
+          y: 848,
+        },
+        {
+          x: 507,
+          y: 874,
+        },
+        {
+          x: 441,
+          y: 921,
+        },
+        {
+          x: 373,
+          y: 970,
+        },
+        {
+          x: 286,
+          y: 1019,
+        },
+        {
+          x: 174,
+          y: 1078,
+        },
+        {
+          x: 0,
+          y: 1093,
+        },
+        {
+          x: 0,
+          y: 855,
         },
       ],
-      length: 160,
-      suppliesCost: 2,
-      obstaclesCount: 1,
-      category: "Estrada",
-      obstaclesDescription:
-        "Terreno fluvial pode exigir travessias de rio em pontos estreitos.",
-      crossingsCount: 2,
-      notes: "Liga a capital ao vale agrícola que sustenta o reino do norte.",
-      startPoiId: "poi-capital-norte",
-      endPoiId: "poi-vila-vale",
-    },
-    {
-      id: "route-templo-farol",
-      name: "Trilha do Atol",
-      color: "#10B981",
-      points: [
+      regionComments: [],
+      regionMarkers: [
         {
-          x: 250,
-          y: 2450,
-        },
-        {
-          x: 700,
-          y: 2550,
-        },
-        {
-          x: 1150,
-          y: 2650,
+          id: "regionMarkers-reg-terras-vermelhas-1",
+          text: "Marcador de referência para Terras Vermelhas.",
         },
       ],
-      length: 90,
-      suppliesCost: 1,
-      obstaclesCount: 1,
-      category: "Trilha",
-      obstaclesDescription:
-        "Vegetação densa da floresta dificulta o trajeto até os lagos gêmeos.",
-      crossingsCount: 0,
-      notes:
-        "Caminho local usado por peregrinos que visitam o templo entre os lagos.",
-      startPoiId: "poi-farol-atol",
-      endPoiId: "poi-templo-lago",
+      regionNotes: [
+        {
+          id: "regionNotes-reg-terras-vermelhas-1",
+          text: "Notas do mestre: a mancha escura ao centro pode esconder uma ruína ou ser marcada como ponto de interesse ainda não nomeado.",
+        },
+      ],
+      regionReferences: [
+        {
+          id: "ref-reg-terras-vermelhas-1",
+          label: "Referência de lore — Terras Vermelhas",
+          url: "",
+        },
+      ],
     },
   ],
-  comments: [
-    {
-      id: "comment-cratera-vermelha",
-      author: "Mestre",
-      avatar: "M",
-      content:
-        "A mancha escura nas Terras Vermelhas ainda não tem nome — decidir se é cratera, ruína ou mina.",
-      x: 6500,
-      y: 1100,
-      date: "Hoje",
-      resolved: false,
-    },
-    {
-      id: "comment-cratera-rosea",
-      author: "Mestre",
-      avatar: "M",
-      content:
-        "A cratera branca no centro da Ilha Rósea pode ser o gancho principal desta região — definir se é bênção ou maldição.",
-      x: 4750,
-      y: 1950,
-      date: "Hoje",
-      resolved: false,
-    },
-    {
-      id: "comment-gelo",
-      author: "Mestre",
-      avatar: "M",
-      content:
-        "Avaliar regras de fadiga/suprimentos extras para viagens que cruzem o Arquipélago Gelado e a Geleira Austral.",
-      x: 4000,
-      y: 2600,
-      date: "Hoje",
-      resolved: false,
-    },
-  ],
+  pois: [],
+  routes: [],
+  comments: [],
   travelPlan: {
     origin: "Porto Vermelho",
     destination: "Porto da Savana",
     stops: ["Porto Vermelho"],
-    selectedRouteIds: ["route-comercio-mar"],
+    selectedRouteIds: [],
     caravan: {
       defesa: 1,
       suporte: 1,
