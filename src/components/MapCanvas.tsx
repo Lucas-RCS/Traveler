@@ -13,6 +13,9 @@ import {
   CornerDownRight,
   Check,
   MessageSquare,
+  FlameKindling,
+  Landmark,
+  Mountain,
 } from "lucide-react";
 import {
   Campaign,
@@ -775,13 +778,17 @@ export default function MapCanvas({
       case "Porto":
         return <Anchor size={size} />;
       case "Templo":
-        return <Compass size={size} />;
+        return <Landmark size={size} />;
       case "Vila":
         return <Home size={size} className="scale-75" />;
       case "Ruína":
         return <HelpCircle size={size} />;
       case "Acampamento":
+        return <FlameKindling size={size} />;
+      case "Posto":
         return <Shield size={size} />;
+      case "Marco":
+        return <Mountain size={size} />;
       default:
         return <MapPin size={size} />;
     }
@@ -794,7 +801,7 @@ export default function MapCanvas({
       ? createPortal(
           <div
             onMouseDown={(e) => e.stopPropagation()}
-            className="fixed top-4 left-1/2 -translate-x-1/2 z-[90] w-[calc(100vw-2rem)] max-w-xl bg-slate-900/90 border border-purple-500/40 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center justify-between gap-3 backdrop-blur-md pointer-events-auto"
+            className="fixed top-4 left-1/2 -translate-x-1/2 z-[30] w-[calc(100vw-2rem)] max-w-xl bg-slate-900/90 border border-purple-500/40 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center justify-between gap-3 backdrop-blur-md pointer-events-auto"
           >
             <span className="text-xs font-medium text-purple-400 flex items-center gap-1.5 animate-pulse">
               <span className="w-2 h-2 rounded-full bg-purple-500" /> Desenhando
@@ -1847,7 +1854,8 @@ export default function MapCanvas({
                     <option value="Templo">Templo Sagrado</option>
                     <option value="Ruína">Ruína Antiga</option>
                     <option value="Acampamento">Acampamento</option>
-                    <option value="Marco">Marco de Estrada</option>
+                    <option value="Posto">Posto</option>
+                    <option value="Marco">Marco Geográfico</option>
                   </select>
                 </div>
 
@@ -2164,13 +2172,17 @@ export default function MapCanvas({
                     placeholder="Bioma"
                     className="text-xs p-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-emerald-500"
                   />
-                  <input
-                    type="text"
+                  <select
                     value={newRegionClimate}
                     onChange={(e) => setNewRegionClimate(e.target.value)}
-                    placeholder="Clima"
-                    className="text-xs p-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-emerald-500"
-                  />
+                    className="themed-select text-xs p-2 rounded-lg focus:outline-none focus:border-emerald-500"
+                  >
+                    <option value="Moderado">Moderado</option>
+                    <option value="Úmido">Úmido</option>
+                    <option value="Seco">Seco</option>
+                    <option value="Frio">Frio</option>
+                    <option value="Quente">Quente</option>
+                  </select>
                 </div>
 
                 <textarea

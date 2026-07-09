@@ -95,9 +95,6 @@ const normalizeCampaign = (campaign: Campaign): Campaign => {
         ? region.regionMarkers
         : [],
       regionNotes: Array.isArray(region.regionNotes) ? region.regionNotes : [],
-      regionReferences: Array.isArray(region.regionReferences)
-        ? region.regionReferences
-        : [],
     })),
     routes: Array.isArray(campaign.routes) ? campaign.routes : [],
     pois: Array.isArray(campaign.pois) ? campaign.pois : [],
@@ -653,9 +650,6 @@ export default function App() {
                   comments: activeCampaign.comments.length,
                 }}
                 customLayers={customLayers}
-                onAddCustomLayer={handleAddCustomLayer}
-                onDeleteCustomLayer={handleDeleteCustomLayer}
-                onRenameCustomLayer={handleRenameCustomLayer}
                 layerOrder={layerOrder}
                 setLayerOrder={setLayerOrder}
               />

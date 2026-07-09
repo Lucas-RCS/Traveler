@@ -21,7 +21,6 @@ import {
   RouteCategory,
   POIType,
   RegionTextItem,
-  RegionReferenceItem,
 } from "../types";
 import { formatSignedCoordinate, mapPointToGeo } from "../utils/coordinates";
 
@@ -56,20 +55,17 @@ export default function InspectorPanel({
   const [openRegionComments, setOpenRegionComments] = useState(true);
   const [openRegionMarkers, setOpenRegionMarkers] = useState(false);
   const [openRegionNotes, setOpenRegionNotes] = useState(false);
-  const [openRegionReferences, setOpenRegionReferences] = useState(false);
 
   // Tags typing state
   const [newTagText, setNewTagText] = useState("");
   const [newRegionComment, setNewRegionComment] = useState("");
   const [newRegionMarker, setNewRegionMarker] = useState("");
   const [newRegionNoteItem, setNewRegionNoteItem] = useState("");
-  const [newRegionReferenceLabel, setNewRegionReferenceLabel] = useState("");
-  const [newRegionReferenceUrl, setNewRegionReferenceUrl] = useState("");
 
   if (!selectedElement.type || !selectedElement.id) {
     return (
       <div
-        className={`w-80 p-6 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-center z-10 max-h-[80vh] overflow-hidden flex flex-col`}
+        className={`w-90 p-6 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-center z-10 max-h-[80vh] overflow-hidden flex flex-col`}
       >
         <div className="flex flex-col items-center justify-center py-16 opacity-50 space-y-4">
           <Layers size={36} className="text-amber-500 animate-pulse" />
@@ -146,27 +142,6 @@ export default function InspectorPanel({
     handleUpdateRegion({
       [field]: existing.filter((item) => item.id !== id),
     } as Partial<Region>);
-  };
-
-  const addRegionReference = () => {
-    if (!region || !newRegionReferenceLabel.trim()) return;
-    const existing = region.regionReferences || [];
-    const next: RegionReferenceItem = {
-      id: `ref-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-      label: newRegionReferenceLabel.trim(),
-      url: newRegionReferenceUrl.trim(),
-    };
-    handleUpdateRegion({ regionReferences: [...existing, next] });
-    setNewRegionReferenceLabel("");
-    setNewRegionReferenceUrl("");
-  };
-
-  const deleteRegionReference = (id: string) => {
-    if (!region) return;
-    const existing = region.regionReferences || [];
-    handleUpdateRegion({
-      regionReferences: existing.filter((ref) => ref.id !== id),
-    });
   };
 
   const handleDuplicateRegion = () => {
@@ -287,12 +262,11 @@ export default function InspectorPanel({
   const regionComments = region?.regionComments || [];
   const regionMarkers = region?.regionMarkers || [];
   const regionNotes = region?.regionNotes || [];
-  const regionReferences = region?.regionReferences || [];
   const poiGeo = poi ? mapPointToGeo({ x: poi.x, y: poi.y }, campaign) : null;
 
   return (
     <div
-      className={`w-100 p-4 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-xs flex flex-col max-h-[80vh] overflow-hidden no-scrollbar z-10`}
+      className={`w-90 p-4 rounded-2xl shadow-xl border floating-panel${!isDarkTheme ? "-light" : ""} text-xs flex flex-col max-h-[80vh] overflow-hidden no-scrollbar z-10`}
     >
       {/* Header */}
       <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
@@ -729,81 +703,6 @@ export default function InspectorPanel({
                   )}
                 </div>
 
-                {/* Accordion Region References */}
-                <div>
-                  <button
-                    onClick={() =>
-                      setOpenRegionReferences(!openRegionReferences)
-                    }
-                    className="w-full flex items-center justify-between p-2.5 hover:bg-white/5 transition-colors font-medium"
-                  >
-                    <span className="flex items-center gap-1.5">
-                      <MapPin size={12} className="opacity-60" />
-                      Referências da Região ({regionReferences.length})
-                    </span>
-                    {openRegionReferences ? (
-                      <ChevronUp size={12} />
-                    ) : (
-                      <ChevronDown size={12} />
-                    )}
-                  </button>
-                  {openRegionReferences && (
-                    <div className="p-2.5 bg-black/10 space-y-1.5">
-                      <div className="space-y-1 max-h-24 overflow-y-auto no-scrollbar pr-0.5">
-                        {regionReferences.map((item) => (
-                          <div
-                            key={item.id}
-                            className="flex items-center justify-between gap-2 text-[10px] p-1.5 rounded bg-white/5 border border-white/10"
-                          >
-                            <span className="truncate">
-                              {item.url
-                                ? `${item.label} - ${item.url}`
-                                : item.label}
-                            </span>
-                            <button
-                              onClick={() => deleteRegionReference(item.id)}
-                              className="text-red-400 hover:text-red-300"
-                            >
-                              Excluir
-                            </button>
-                          </div>
-                        ))}
-                        {regionReferences.length === 0 && (
-                          <div className="text-[10px] opacity-55 p-2 rounded-lg bg-white/5 border border-white/10">
-                            Nenhuma referência cadastrada.
-                          </div>
-                        )}
-                      </div>
-                      <div className="grid grid-cols-2 gap-1">
-                        <input
-                          type="text"
-                          value={newRegionReferenceLabel}
-                          onChange={(e) =>
-                            setNewRegionReferenceLabel(e.target.value)
-                          }
-                          placeholder="Título"
-                          className="text-[10px] p-1.5 rounded bg-white/5 border border-white/10 focus:outline-none focus:border-amber-500"
-                        />
-                        <input
-                          type="text"
-                          value={newRegionReferenceUrl}
-                          onChange={(e) =>
-                            setNewRegionReferenceUrl(e.target.value)
-                          }
-                          placeholder="URL ou caminho"
-                          className="text-[10px] p-1.5 rounded bg-white/5 border border-white/10 focus:outline-none focus:border-amber-500"
-                        />
-                      </div>
-                      <button
-                        onClick={addRegionReference}
-                        className="w-full p-1.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-semibold"
-                      >
-                        Adicionar Referência
-                      </button>
-                    </div>
-                  )}
-                </div>
-
                 {/* Accordion Master Notes */}
                 <div>
                   <button
@@ -1221,6 +1120,7 @@ export default function InspectorPanel({
                   <option value="Templo">Templo</option>
                   <option value="Ruína">Ruína Antiga</option>
                   <option value="Acampamento">Acampamento</option>
+                  <option value="Posto">Posto</option>
                   <option value="Marco">Marco Geográfico</option>
                 </select>
               </div>

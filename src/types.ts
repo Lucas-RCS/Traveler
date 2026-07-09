@@ -8,12 +8,6 @@ export interface RegionTextItem {
   text: string;
 }
 
-export interface RegionReferenceItem {
-  id: string;
-  label: string;
-  url: string;
-}
-
 export type RegionType =
   | "Floresta"
   | "Reino"
@@ -41,7 +35,6 @@ export interface Region {
   regionComments?: RegionTextItem[];
   regionMarkers?: RegionTextItem[];
   regionNotes?: RegionTextItem[];
-  regionReferences?: RegionReferenceItem[];
 }
 
 export type RouteCategory =

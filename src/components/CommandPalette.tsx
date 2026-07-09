@@ -303,7 +303,7 @@ export default function CommandPalette({
                 <ArrowRight size={10} /> Use as setas ↑ ↓ para navegar e Enter
                 para selecionar
               </span>
-              <span>RPG Travel Maps</span>
+              <span>Traveler</span>
             </div>
           </motion.div>
         </div>

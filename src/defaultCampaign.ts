@@ -156,7 +156,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
       regionComments: [],
       regionMarkers: [],
       regionNotes: [],
-      regionReferences: [],
     },
     {
       id: "reg-terras-vermelhas",
@@ -280,13 +279,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         {
           id: "regionNotes-reg-terras-vermelhas-1",
           text: "Notas do mestre: a mancha escura ao centro pode esconder uma ruína ou ser marcada como ponto de interesse ainda não nomeado.",
-        },
-      ],
-      regionReferences: [
-        {
-          id: "ref-reg-terras-vermelhas-1",
-          label: "Referência de lore — Terras Vermelhas",
-          url: "",
         },
       ],
     },
@@ -438,13 +430,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
           text: "Notas do mestre: os lagos gêmeos podem conter ruínas submersas ou uma comunidade isolada.",
         },
       ],
-      regionReferences: [
-        {
-          id: "ref-reg-floresta-esmeralda-1",
-          label: "Referência de lore — Floresta da Ilha Esmeralda",
-          url: "",
-        },
-      ],
     },
     {
       id: "reg-ilhota-ferrosa",
@@ -504,13 +489,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         {
           id: "regionNotes-reg-ilhota-ferrosa-1",
           text: "Notas do mestre: útil como parada de reabastecimento ou esconderijo de piratas.",
-        },
-      ],
-      regionReferences: [
-        {
-          id: "ref-reg-ilhota-ferrosa-1",
-          label: "Referência de lore — Ilhota Ferrosa",
-          url: "",
         },
       ],
     },
@@ -586,13 +564,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
           text: "Notas do mestre: pode servir como marco de navegação entre as ilhas centrais.",
         },
       ],
-      regionReferences: [
-        {
-          id: "ref-reg-ilhota-verdejante-1",
-          label: "Referência de lore — Ilhota Verdejante",
-          url: "",
-        },
-      ],
     },
     {
       id: "reg-ilhota-sul",
@@ -660,13 +631,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         {
           id: "regionNotes-reg-ilhota-sul-1",
           text: "Notas do mestre: contraste climático interessante por estar próxima da região gelada.",
-        },
-      ],
-      regionReferences: [
-        {
-          id: "ref-reg-ilhota-sul-1",
-          label: "Referência de lore — Ilhota do Sul",
-          url: "",
         },
       ],
     },
@@ -768,13 +732,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         {
           id: "regionNotes-reg-ilha-rosea-1",
           text: "Notas do mestre: forte candidata a bioma de origem mágica ou corrompida; a cratera central é um ótimo local para um santuário ou perigo sobrenatural.",
-        },
-      ],
-      regionReferences: [
-        {
-          id: "ref-reg-ilha-rosea-1",
-          label: "Referência de lore — Ilha Rósea (Terras Fúngicas)",
-          url: "",
         },
       ],
     },
@@ -962,13 +919,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
           text: "Notas do mestre: excelente cenário para uma masmorra vulcânica, uma terra amaldiçoada ou o covil de uma ameaça antiga.",
         },
       ],
-      regionReferences: [
-        {
-          id: "ref-reg-terras-sombrias-1",
-          label: "Referência de lore — Terras Sombrias",
-          url: "",
-        },
-      ],
     },
     {
       id: "reg-geleira-austral",
@@ -1090,13 +1040,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
           text: "Notas do mestre: viagens aqui devem considerar penalidades de suprimentos e fadiga por frio extremo.",
         },
       ],
-      regionReferences: [
-        {
-          id: "ref-reg-geleira-austral-1",
-          label: "Referência de lore — Geleira Austral",
-          url: "",
-        },
-      ],
     },
     {
       id: "reg-arquipelago-gelado",
@@ -1198,13 +1141,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
           text: "Notas do mestre: ótimo obstáculo natural para rotas marítimas, exigindo perícia de navegação ou guia local.",
         },
       ],
-      regionReferences: [
-        {
-          id: "ref-reg-arquipelago-gelado-1",
-          label: "Referência de lore — Arquipélago Gelado",
-          url: "",
-        },
-      ],
     },
     {
       id: "region-1783445466753",
@@ -1276,13 +1212,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
         {
           id: "regionNotes-reg-terras-vermelhas-1",
           text: "Notas do mestre: a mancha escura ao centro pode esconder uma ruína ou ser marcada como ponto de interesse ainda não nomeado.",
-        },
-      ],
-      regionReferences: [
-        {
-          id: "ref-reg-terras-vermelhas-1",
-          label: "Referência de lore — Terras Vermelhas",
-          url: "",
         },
       ],
     },
