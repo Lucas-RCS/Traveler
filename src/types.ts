@@ -118,13 +118,6 @@ export interface Caravan {
   useStreetGuild: boolean; // Guilda da Rua (cheaper/less reliable)
 }
 
-export interface TravelLog {
-  id: string;
-  text: string;
-  type: "info" | "success" | "warning" | "danger" | "event";
-  timestamp: string;
-}
-
 export interface TravelPlan {
   origin: string;
   destination: string;
@@ -137,7 +130,6 @@ export interface TravelPlan {
   fatigue: number; // accumulated fatigue per traveler
   traveling: boolean;
   currentSegmentIndex: number; // which route index we are currently on
-  historyLog: TravelLog[];
 }
 
 export interface Campaign {

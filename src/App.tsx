@@ -3,6 +3,7 @@ import { Compass, Search } from "lucide-react";
 
 import { Campaign, Point, Region, Route, POI, MapComment } from "./types";
 import { DEFAULT_CAMPAIGN } from "./defaultCampaign";
+import { coerceStoredTimestamp, createTimestamp } from "./utils/datetime";
 
 // Import all sub-components
 import MapCanvas from "./components/MapCanvas";
@@ -68,9 +69,6 @@ const normalizeCampaign = (campaign: Campaign): Campaign => {
     fatigue: campaign.travelPlan?.fatigue ?? 0,
     traveling: campaign.travelPlan?.traveling ?? false,
     currentSegmentIndex: campaign.travelPlan?.currentSegmentIndex ?? 0,
-    historyLog: Array.isArray(campaign.travelPlan?.historyLog)
-      ? campaign.travelPlan.historyLog
-      : [],
   };
 
   return {
@@ -98,7 +96,12 @@ const normalizeCampaign = (campaign: Campaign): Campaign => {
     })),
     routes: Array.isArray(campaign.routes) ? campaign.routes : [],
     pois: Array.isArray(campaign.pois) ? campaign.pois : [],
-    comments: Array.isArray(campaign.comments) ? campaign.comments : [],
+    comments: Array.isArray(campaign.comments)
+      ? campaign.comments.map((comment) => ({
+          ...comment,
+          date: coerceStoredTimestamp(comment.date),
+        }))
+      : [],
     travelPlan: normalizedTravelPlan,
   };
 };
@@ -337,7 +340,7 @@ export default function App() {
                 content: `${data.content} (Cópia)`,
                 x: pasteX,
                 y: pasteY,
-                date: new Date().toLocaleDateString("pt-BR"),
+                date: createTimestamp(),
               };
               updatedCampaign.comments = [
                 ...activeCampaign.comments,

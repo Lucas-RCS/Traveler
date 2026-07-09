@@ -1,5 +1,4 @@
 import { Campaign } from "./types";
-import defaultMapPng from "./imgs/defaultMap.png";
 
 export const DEFAULT_CAMPAIGN: Campaign = {
   id: "campaign-imperio-alexandria",
@@ -1245,14 +1244,6 @@ export const DEFAULT_CAMPAIGN: Campaign = {
     fatigue: 0,
     traveling: false,
     currentSegmentIndex: 0,
-    historyLog: [
-      {
-        id: "log-imperio-1",
-        text: "Mapa do Império de Alexandria carregado a partir da imagem de referência, com regiões, POIs e rotas iniciais definidos.",
-        type: "info",
-        timestamp: "Agora",
-      },
-    ],
   },
   worldScale: 1,
 };

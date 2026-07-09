@@ -12,6 +12,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { Campaign } from "../types";
+import { createTimestamp } from "../utils/datetime";
 
 interface CampaignSelectorProps {
   campaigns: Campaign[];
@@ -163,14 +164,6 @@ export default function CampaignSelector({
         fatigue: 0,
         traveling: false,
         currentSegmentIndex: 0,
-        historyLog: [
-          {
-            id: `log-proc-${Date.now()}`,
-            text: "Nova campanha criada com sucesso.",
-            type: "info",
-            timestamp: "Agora",
-          },
-        ],
       },
       worldScale: 1,
     };

@@ -28,6 +28,7 @@ import {
   RouteCategory,
 } from "../types";
 import { getMapCenterPoint } from "../utils/coordinates";
+import { createTimestamp, formatRelativeTimestamp } from "../utils/datetime";
 
 interface MapCanvasProps {
   campaign: Campaign;
@@ -190,6 +191,8 @@ export default function MapCanvas({
   const [newRouteObstacles, setNewRouteObstacles] = useState(1);
   const [newRouteNotes, setNewRouteNotes] = useState("");
 
+  const [, setRelativeTimeTick] = useState(0);
+
   // Handle zooming using scroll wheel
   const handleWheel = (e: WheelEvent) => {
     e.preventDefault();
@@ -343,6 +346,16 @@ export default function MapCanvas({
     precisePanRef.current = pan;
     renderedPanRef.current = pan;
   }, [pan]);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setRelativeTimeTick((value) => value + 1);
+    }, 60000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, []);
 
   // Use native non-passive wheel listener to allow preventDefault without warnings.
   useEffect(() => {
@@ -571,12 +584,7 @@ export default function MapCanvas({
       content: newCommentContent.trim(),
       x: newCommentData.x,
       y: newCommentData.y,
-      date:
-        "Hoje às " +
-        new Date().toLocaleTimeString("pt-BR", {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+      date: createTimestamp(),
       resolved: false,
     };
 
@@ -1747,7 +1755,7 @@ export default function MapCanvas({
                         <span className="font-semibold">{comment.author}</span>
                       </div>
                       <span className="opacity-50 text-[10px]">
-                        {comment.date}
+                        {formatRelativeTimestamp(comment.date)}
                       </span>
                     </div>
 

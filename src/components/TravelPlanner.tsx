@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Compass, Shield, BookOpen } from "lucide-react";
-import { Campaign, TravelPlan, Caravan, TravelLog, Route } from "../types";
+import { Campaign, TravelPlan, Caravan, Route } from "../types";
 
 interface TravelPlannerProps {
   campaign: Campaign;
