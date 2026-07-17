@@ -29,6 +29,7 @@ import {
 } from "../types";
 import { getMapCenterPoint } from "../utils/coordinates";
 import { createTimestamp, formatRelativeTimestamp } from "../utils/datetime";
+import logo from "../imgs/logo.svg";
 
 interface MapCanvasProps {
   campaign: Campaign;
@@ -953,215 +954,78 @@ export default function MapCanvas({
             />
           ) : (
             // Native Procedural RPG Map Styling (When no custom background)
-            <>
-              <rect width="100%" height="100%" fill="url(#sea-grad)" />
-              <rect width="100%" height="100%" fill="url(#grid-pattern)" />
-              <rect
-                width="100%"
-                height="100%"
-                filter="url(#parchment-noise)"
-                opacity="0.8"
-              />
-
-              {/* Cartographic decorations */}
-              {/* Coastlines */}
-              <path
-                d="M 100,200 C 300,180 400,250 500,350 C 600,450 450,700 350,780 C 250,860 150,900 120,1100 C 100,1200 300,1250 600,1200 C 800,1170 950,1100 1100,1150 C 1250,1200 1350,1300 1500,1280 C 1700,1250 1850,1100 1900,900 C 1950,700 1800,550 1750,400 C 1700,250 1800,150 1600,100 C 1400,60 1200,180 1000,150 C 800,120 700,250 500,200 Z"
-                fill={isDarkTheme ? "#1a1e2d" : "#EDE5D6"}
-                stroke={isDarkTheme ? "rgba(255,255,255,0.06)" : "#C0AF92"}
-                strokeWidth="2"
-                filter="url(#parchment-noise)"
-              />
-              <path
-                d="M 100,200 C 300,180 400,250 500,350 C 600,450 450,700 350,780 C 250,860 150,900 120,1100 C 100,1200 300,1250 600,1200 C 800,1170 950,1100 1100,1150 C 1250,1200 1350,1300 1500,1280 C 1700,1250 1850,1100 1900,900 C 1950,700 1800,550 1750,400 C 1700,250 1800,150 1600,100 C 1400,60 1200,180 1000,150 C 800,120 700,250 500,200 Z"
-                fill="none"
-                stroke={isDarkTheme ? "rgba(255,255,255,0.03)" : "#D8CBB6"}
-                strokeWidth="6"
-              />
-
-              {/* Mountains and Forests Hand-Drawn style Vector Stamps (Plausible RPG Icons) */}
-              {/* Snowy Mountains representation at the top */}
+            <svg
+              version="1.0"
+              xmlns="http://www.w3.org/2000/svg"
+              width="776.000000pt"
+              height="787.000000pt"
+              viewBox="0 0 776.000000 787.000000"
+              preserveAspectRatio="xMidYMid meet"
+            >
               <g
-                fill="none"
-                stroke={isDarkTheme ? "rgba(255,255,255,0.1)" : "#9E8E76"}
-                strokeWidth="1.5"
-                strokeLinecap="round"
+                transform="translate(0.000000,787.000000) scale(0.100000,-0.100000)"
+                fill="#000000"
+                stroke="none"
               >
-                <path d="M 200,180 L 250,110 L 300,180 M 250,110 L 250,180" />
-                <path d="M 230,140 L 250,145 L 270,140" />
-                <path d="M 270,180 L 320,100 L 370,180 M 320,100 L 320,180" />
-                <path d="M 450,160 L 500,90 L 550,160" />
-                <path d="M 700,170 L 740,110 L 780,170" />
-              </g>
-
-              {/* Decorative Rivers */}
-              <path
-                d="M 1000,300 Q 950,550 1100,700 T 1000,1100 Q 1000,1200 1000,1300"
-                fill="none"
-                stroke={isDarkTheme ? "#1E2B3E" : "#A6C2D4"}
-                strokeWidth="4"
-                strokeLinecap="round"
-              />
-
-              {/* Compass Rose */}
-              <g
-                transform="translate(1800, 200)"
-                opacity={isDarkTheme ? 0.15 : 0.25}
-                className="pointer-events-none"
-              >
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="80"
-                  fill="none"
-                  stroke={isDarkTheme ? "#fff" : "#3E2F1F"}
-                  strokeWidth="1"
-                  strokeDasharray="3,3"
+                <path
+                  d="M3814 7856 c-94 -30 -155 -113 -155 -213 -1 -102 41 -170 129 -210
+44 -21 64 -25 109 -20 91 9 163 64 191 146 17 50 14 130 -7 177 -24 53 -91
+109 -146 123 -54 14 -69 13 -121 -3z"
                 />
                 <path
-                  d="M -90,0 L 90,0 M 0,-90 L 0,90"
-                  stroke={isDarkTheme ? "#fff" : "#3E2F1F"}
-                  strokeWidth="0.5"
+                  d="M2915 7651 c-279 -71 -500 -154 -762 -287 -549 -279 -1017 -687
+-1375 -1199 -124 -178 -268 -439 -370 -669 -104 -236 -228 -674 -213 -752 13
+-71 100 -112 170 -79 45 22 55 44 91 200 34 154 110 383 180 543 276 634 715
+1158 1291 1539 339 224 677 373 1073 474 126 31 159 44 177 64 45 51 42 123
+-6 169 -43 42 -85 41 -256 -3z"
                 />
-                {/* 4 points */}
-                <polygon
-                  points="0,-100 12,-15 0,0"
-                  fill={isDarkTheme ? "#90a4ae" : "#8c7b65"}
+                <path
+                  d="M4624 7680 c-11 -4 -33 -23 -48 -41 -25 -29 -28 -39 -23 -82 7 -78
+27 -90 209 -136 501 -126 925 -337 1343 -669 155 -123 446 -415 559 -562 221
+-286 378 -559 499 -865 76 -192 123 -351 172 -582 3 -12 17 -35 31 -52 65 -78
+204 -31 204 69 0 88 -75 372 -156 595 -58 156 -194 435 -302 616 -405 680
+-1064 1238 -1807 1532 -180 71 -295 108 -474 152 -151 37 -173 39 -207 25z"
                 />
-                <polygon
-                  points="0,-100 -12,-15 0,0"
-                  fill={isDarkTheme ? "#cfd8dc" : "#a8967f"}
+                <path
+                  d="M3847 6408 c-18 -17 -29 -45 -42 -108 -9 -47 -66 -305 -126 -575 -60
+-269 -148 -668 -195 -885 -47 -217 -87 -400 -89 -406 -4 -13 -78 -32 -1080
+-275 -407 -99 -745 -185 -752 -191 -18 -15 -16 -73 3 -89 9 -7 152 -46 318
+-86 593 -143 1501 -366 1504 -368 1 -1 32 -130 67 -286 35 -156 118 -522 185
+-814 67 -291 134 -593 151 -670 30 -143 46 -175 88 -175 43 0 50 20 126 360
+41 184 91 405 110 490 20 85 84 366 143 625 l108 469 230 57 c456 113 979 240
+1271 310 164 39 308 77 321 85 25 16 30 60 10 87 -9 11 -108 39 -303 86 -308
+74 -1090 266 -1365 335 l-165 41 -11 55 c-39 187 -98 456 -234 1080 -49 228
+-108 501 -131 605 -48 224 -54 244 -86 256 -31 12 -28 12 -56 -13z"
                 />
-                <polygon
-                  points="0,100 12,15 0,0"
-                  fill={isDarkTheme ? "#cfd8dc" : "#a8967f"}
+                <path
+                  d="M129 4123 c-35 -19 -64 -43 -84 -71 -27 -40 -30 -51 -30 -126 0 -73
+3 -87 28 -124 79 -121 257 -138 348 -35 43 50 59 92 59 158 0 174 -166 276
+-321 198z"
                 />
-                <polygon
-                  points="0,100 -12,15 0,0"
-                  fill={isDarkTheme ? "#90a4ae" : "#8c7b65"}
+                <path
+                  d="M7435 4131 c-173 -80 -169 -342 7 -415 50 -21 134 -20 184 3 128 58
+165 238 73 355 -53 67 -182 95 -264 57z"
                 />
-                <polygon
-                  points="100,0 15,12 0,0"
-                  fill={isDarkTheme ? "#cfd8dc" : "#a8967f"}
+                <path
+                  d="M260 3172 c-21 -11 -43 -34 -54 -58 l-20 -39 34 -130 c70 -276 161
+-517 295 -780 300 -593 723 -1074 1260 -1432 287 -192 592 -342 910 -449 119
+-39 373 -104 410 -104 57 0 115 61 115 119 0 35 -27 88 -50 101 -12 6 -74 24
+-138 40 -1069 261 -1981 1048 -2409 2078 -62 150 -113 302 -153 456 -41 155
+-54 180 -107 202 -42 18 -51 18 -93 -4z"
                 />
-                <polygon
-                  points="100,0 15,-12 0,0"
-                  fill={isDarkTheme ? "#90a4ae" : "#8c7b65"}
+                <path
+                  d="M7395 3171 c-50 -22 -58 -37 -95 -186 -97 -379 -266 -755 -492 -1093
+-224 -334 -588 -703 -920 -932 -345 -238 -725 -412 -1115 -510 -174 -44 -187
+-50 -208 -90 -31 -60 -10 -137 45 -165 38 -20 62 -19 167 5 694 162 1384 567
+1866 1095 422 462 715 992 877 1584 22 79 40 163 40 186 0 50 -28 91 -76 111
+-41 17 -41 17 -89 -5z"
                 />
-                <polygon
-                  points="-100,0 -15,12 0,0"
-                  fill={isDarkTheme ? "#90a4ae" : "#8c7b65"}
+                <path
+                  d="M3820 451 c-122 -38 -186 -145 -159 -269 15 -73 82 -146 152 -167
+136 -40 275 55 285 195 6 80 -16 137 -72 188 -60 55 -135 74 -206 53z"
                 />
-                <polygon
-                  points="-100,0 -15,-12 0,0"
-                  fill={isDarkTheme ? "#cfd8dc" : "#a8967f"}
-                />
-                {/* Text labels */}
-                <text
-                  x="-5"
-                  y="-105"
-                  fill={isDarkTheme ? "#fff" : "#3E2F1F"}
-                  fontSize="14"
-                  fontWeight="bold"
-                >
-                  N
-                </text>
-                <text
-                  x="-5"
-                  y="115"
-                  fill={isDarkTheme ? "#fff" : "#3E2F1F"}
-                  fontSize="14"
-                  fontWeight="bold"
-                >
-                  S
-                </text>
-                <text
-                  x="110"
-                  y="5"
-                  fill={isDarkTheme ? "#fff" : "#3E2F1F"}
-                  fontSize="14"
-                  fontWeight="bold"
-                >
-                  L
-                </text>
-                <text
-                  x="-125"
-                  y="5"
-                  fill={isDarkTheme ? "#fff" : "#3E2F1F"}
-                  fontSize="14"
-                  fontWeight="bold"
-                >
-                  O
-                </text>
               </g>
-
-              {/* Big stylish typography labels directly drawn on map */}
-              <text
-                x="350"
-                y="600"
-                fill={
-                  isDarkTheme ? "rgba(255,255,255,0.04)" : "rgba(62,47,31,0.08)"
-                }
-                fontSize="32"
-                fontFamily="var(--font-display)"
-                letterSpacing="12"
-                fontWeight="bold"
-              >
-                FLORESTA DE ELDRIA
-              </text>
-              <text
-                x="1000"
-                y="650"
-                fill={
-                  isDarkTheme ? "rgba(255,255,255,0.04)" : "rgba(62,47,31,0.08)"
-                }
-                fontSize="36"
-                fontFamily="var(--font-display)"
-                letterSpacing="16"
-                fontWeight="bold"
-              >
-                REINO DE VALTHOR
-              </text>
-              <text
-                x="1600"
-                y="700"
-                fill={
-                  isDarkTheme ? "rgba(255,255,255,0.04)" : "rgba(62,47,31,0.08)"
-                }
-                fontSize="32"
-                fontFamily="var(--font-display)"
-                letterSpacing="12"
-                fontWeight="bold"
-              >
-                DESERTO DE AREIA
-              </text>
-              <text
-                x="350"
-                y="130"
-                fill={
-                  isDarkTheme ? "rgba(255,255,255,0.04)" : "rgba(62,47,31,0.08)"
-                }
-                fontSize="32"
-                fontFamily="var(--font-display)"
-                letterSpacing="12"
-                fontWeight="bold"
-              >
-                MONTANHAS GÉLIDAS
-              </text>
-              <text
-                x="1200"
-                y="1250"
-                fill={
-                  isDarkTheme ? "rgba(255,255,255,0.04)" : "rgba(62,47,31,0.08)"
-                }
-                fontSize="32"
-                fontFamily="var(--font-display)"
-                letterSpacing="12"
-                fontWeight="bold"
-              >
-                MAR DE NEBLINA
-              </text>
-            </>
+            </svg>
           )}
 
           {/* DYNAMIC ORDERED SVG LAYERS */}
@@ -1855,11 +1719,11 @@ export default function MapCanvas({
                     className="themed-select w-full text-xs p-2 rounded-lg focus:outline-none focus:border-amber-500 text-inherit"
                   >
                     <option value="Pin">Pin Geral</option>
-                    <option value="Cidade">Cidade Imperial</option>
-                    <option value="Vila">Vila Local</option>
+                    <option value="Cidade">Cidade</option>
+                    <option value="Vila">Vila / Vilarejo</option>
                     <option value="Castelo">Castelo / Fortaleza</option>
                     <option value="Porto">Porto Marítimo</option>
-                    <option value="Templo">Templo Sagrado</option>
+                    <option value="Templo">Templo</option>
                     <option value="Ruína">Ruína Antiga</option>
                     <option value="Acampamento">Acampamento</option>
                     <option value="Posto">Posto</option>

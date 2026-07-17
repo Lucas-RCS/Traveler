@@ -824,10 +824,10 @@ export default function InspectorPanel({
                     }
                     className="themed-select w-full text-xs p-2 rounded-lg focus:outline-none focus:border-amber-500 text-inherit transition-all"
                   >
-                    <option value="Estrada">Estrada Imperial</option>
-                    <option value="Trilha">Trilha Perigosa</option>
+                    <option value="Estrada">Estrada</option>
+                    <option value="Trilha">Trilha</option>
                     <option value="Túneis">Túneis / Cavernas</option>
-                    <option value="Atalho">Atalho Secundário</option>
+                    <option value="Atalho">Atalho</option>
                     <option value="Marítimo">Rota Marítima</option>
                   </select>
                 </div>
