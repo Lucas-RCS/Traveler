@@ -1060,9 +1060,7 @@ export default function MapCanvas({
                             }
                             stroke={region.color}
                             strokeWidth={isSelected ? 3 : isHovered ? 2 : 1}
-                            strokeDasharray={
-                              region.type === "Floresta" ? "4,4" : undefined
-                            }
+                            strokeDasharray={undefined}
                             className={`transition-all duration-150 cursor-pointer ${isSelected ? "region-selected" : ""}`}
                             onMouseDown={(e) => {
                               if (
