@@ -221,8 +221,7 @@ export default function CampaignSelector({
     const regionsMarkup = targetCampaign.regions
       .map((region) => {
         const pointsStr = region.points.map((p) => `${p.x},${p.y}`).join(" ");
-        const dash = region.type === "Floresta" ? 'stroke-dasharray="4,4"' : "";
-        return `<polygon points="${pointsStr}" fill="${escapeXml(region.color)}" fill-opacity="${region.opacity}" stroke="${escapeXml(region.color)}" stroke-width="1.5" ${dash}/>`;
+        return `<polygon points="${pointsStr}" fill="${escapeXml(region.color)}" fill-opacity="${region.opacity}" stroke="${escapeXml(region.color)}" stroke-width="1.5"/>`;
       })
       .join("\n");
 
